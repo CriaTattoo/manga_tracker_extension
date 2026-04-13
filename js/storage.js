@@ -21,9 +21,9 @@ const StorageManager = {
         this.fileHandle = result.fileHandle;
         await this.loadData();
       }
-      
+
       await this.loadNativeSites();
-      
+
       return true;
     } catch (error) {
       console.error('Erro ao inicializar storage:', error);
@@ -40,13 +40,13 @@ const StorageManager = {
       if (result.mangaData) {
         this.data = result.mangaData;
       }
-      
+
       // Marcar que arquivo foi "selecionado"
-      await chrome.storage.local.set({ 
+      await chrome.storage.local.set({
         fileHandle: true,
         fileName: 'manga_tracker_data.json'
       });
-      
+
       this.fileHandle = true;
       return true;
     } catch (error) {
@@ -62,14 +62,14 @@ const StorageManager = {
       if (result.mangaData) {
         // Garantir integridade da estrutura
         const mangaData = result.mangaData;
-        
+
         mangaData.sites = Array.isArray(mangaData.sites) ? mangaData.sites : [];
         mangaData.mangas = Array.isArray(mangaData.mangas) ? mangaData.mangas : [];
         mangaData.history = Array.isArray(mangaData.history) ? mangaData.history : [];
-        
+
         const defaultSettings = { autoDetect: true, notifications: true };
         mangaData.settings = { ...defaultSettings, ...(mangaData.settings || {}) };
-        
+
         this.data = mangaData;
       }
       return this.data;
@@ -162,10 +162,10 @@ const StorageManager = {
 
   // Adicionar mangá
   async addManga(manga) {
-    const existingManga = this.data.mangas.find(m => 
+    const existingManga = this.data.mangas.find(m =>
       m.url === manga.url || (m.title === manga.title && m.siteId === manga.siteId)
     );
-    
+
     if (existingManga) {
       return existingManga;
     }
@@ -181,7 +181,7 @@ const StorageManager = {
       lastReadAt: manga.lastReadAt || null,
       addedAt: new Date().toISOString()
     };
-    
+
     this.data.mangas.push(newManga);
     await this.saveData();
     return newManga;
@@ -224,14 +224,14 @@ const StorageManager = {
       url: entry.url,
       readAt: new Date().toISOString()
     };
-    
+
     this.data.history.unshift(historyEntry);
-    
+
     // Manter apenas últimos 1000 registros
     if (this.data.history.length > 1000) {
       this.data.history = this.data.history.slice(0, 1000);
     }
-    
+
     await this.saveData();
     return historyEntry;
   },
@@ -321,7 +321,7 @@ const StorageManager = {
     if (node.children.length === 0) {
       return node.textContent;
     }
-    
+
     let obj = {};
     for (let i = 0; i < node.children.length; i++) {
       let child = node.children[i];
@@ -339,7 +339,7 @@ const StorageManager = {
         if (val === 'true') val = true;
         else if (val === 'false') val = false;
         else if (!isNaN(val) && val !== '') val = Number(val);
-        
+
         obj[nodeName] = val;
       }
     }
@@ -358,16 +358,16 @@ const StorageManager = {
     try {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-      
+
       if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
         throw new Error("Formatação XML inválida");
       }
-      
+
       const root = xmlDoc.getElementsByTagName('MangaTrackerData')[0];
       if (!root) throw new Error("Nó base MangaTrackerData não encontrado");
-      
+
       const imported = this.xmlToObj(root);
-      
+
       this.data = imported;
       await this.saveData();
       return true;
