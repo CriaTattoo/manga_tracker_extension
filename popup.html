@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manga Tracker - Personal Library Journal</title>
+  <link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="app-header">
+      <img src="icons/logo_horizontal.png" alt="Manga Tracker Logo" id="appLogo" class="main-logo">
+      <div class="version-info">
+        <p class="app-signature"></p>
+      </div>
+    </header>
+
+    <div class="status-section">
+      <div id="fileStatus" class="status-info">
+        <span class="status-label">Arquivo:</span>
+        <span id="fileName" class="status-value">Nenhum arquivo selecionado</span>
+      </div>
+      <button id="selectFileBtn" class="btn btn-primary">📁 Montar Arquivo</button>
+    </div>
+
+    <div class="current-page-section" id="currentPageSection" style="display: none;">
+      <h3>Página Atual</h3>
+      <div id="currentPageInfo" class="info-box">
+        <p id="currentUrl" class="url-text"></p>
+        <p id="detectionStatus" class="detection-status"></p>
+      </div>
+      <div class="button-group">
+        <button id="enableSiteBtn" class="btn btn-warning" style="display: none;">🔓 Habilitar neste Site</button>
+        <button id="addManuallyBtn" class="btn btn-success">➕ Adicionar Mangá</button>
+        <button id="markAsReadBtn" class="btn btn-info" style="display: none;">✓ Marcar como Lido</button>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <h3>Ações Rápidas</h3>
+      <button id="openManagerBtn" class="btn btn-primary">⚙️ Abrir Gerenciador</button>
+      <button id="helpBtn" class="btn btn-secondary">❓ Ajuda</button>
+    </div>
+
+    <div class="stats-section" id="statsSection" style="display: none;">
+      <h3>Estatísticas</h3>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-label">Total de Mangás:</span>
+          <span id="totalMangas" class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Leituras Hoje:</span>
+          <span id="dailyReadings" class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Leituras na Semana:</span>
+          <span id="weeklyReadings" class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Sites:</span>
+          <span id="totalSites" class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Total de Leituras:</span>
+          <span id="totalReadings" class="stat-value">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="donation-box">
+      <p>Se gostou do MangaTracker, considere uma doação simbólica de R$5 via PIX.</p>
+      <button id="donatePixPopupBtn" class="btn btn-donate">Doar R$5 via PIX</button>
+    </div>
+
+    <!-- Modal: Ajuda -->
+    <div id="helpModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>❓ Como Usar o Manga Tracker - Personal Library Journal</h2>
+          <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h3>🔓 Habilitar Site</h3>
+          <p>Quando estiver em um site de leitura, clique em "Habilitar neste Site" para permitir que a extensão detecte seus mangás naquele site. Você só precisa fazer isso uma vez por site.</p>
+
+          <h3>📁 Montar Arquivo</h3>
+          <p>Clique em "Montar Arquivo" para ativar o armazenamento local dos seus dados.</p>
+
+          <h3>➕ Adicionar Mangá</h3>
+          <p>Navegue até a página de um mangá e clique em "Adicionar Mangá" para incluí-lo na sua biblioteca pessoal.</p>
+
+          <h3>⚙️ Gerenciador</h3>
+          <p>Use o botão "Abrir Gerenciador" para acessar a interface completa com sua biblioteca, histórico de leituras e estatísticas.</p>
+
+          <h3>💰 Doações</h3>
+          <p>Se você gosta da extensão, considere fazer uma doação simbólica de R$5 via PIX para apoiar o desenvolvimento.</p>
+
+          <h3>📊 Estatísticas</h3>
+          <p>Acompanhe quantos mangás você tem na biblioteca e seu progresso de leitura.</p>
+        </div>
+        <div class="modal-footer">
+          <button id="closeHelpBtn" class="btn btn-primary">Entendi</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p class="app-signature"></p>
+    </footer>
+  </div>
+
+  <script src="js/version.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/popup.js"></script>
+</body>
+</html>

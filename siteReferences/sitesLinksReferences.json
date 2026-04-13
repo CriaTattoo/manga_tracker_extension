@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "nome": "Manga Plus (Shueisha)",
+        "idioma": "Inglês/Português",
+        "home": "https://mangaplus.shueisha.co.jp/",
+        "manga_exemplo": "https://mangaplus.shueisha.co.jp/titles/100056",
+        "capitulo_exemplo": "https://mangaplus.shueisha.co.jp/viewer/1000310"
+    },
+    {
+        "id": 2,
+        "nome": "Viz Media",
+        "idioma": "Inglês",
+        "home": "https://www.viz.com/",
+        "manga_exemplo": "https://www.viz.com/shonenjump/chapters/dragon-ball-super",
+        "capitulo_exemplo": "https://www.viz.com/shonenjump/dragon-ball-super-chapter-1/chapter/1"
+    }
+]

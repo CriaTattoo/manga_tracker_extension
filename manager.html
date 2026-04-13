@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciador de Mangás</title>
+  <link rel="stylesheet" href="css/manager.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-main">
+        <img src="icons/logo_horizontal.png" alt="Manga Tracker Logo" id="appLogo" class="main-logo">
+        <div class="version-info">
+          <p class="app-signature"></p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="helpBtn" class="btn btn-info">❓ Ajuda</button>
+        <button id="exportDataBtn" class="btn btn-secondary">💾 Exportar</button>
+        <button id="importDataBtn" class="btn btn-secondary">📥 Importar</button>
+        <input type="file" id="importFileInput" accept=".json" style="display: none;">
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="mangas">Mangás</button>
+      <button class="tab-btn" data-tab="sites">Sites</button>
+      <button class="tab-btn" data-tab="history">Histórico</button>
+      <button class="tab-btn" data-tab="stats">Estatísticas</button>
+      <button class="tab-btn" data-tab="settings">Configurações</button>
+    </nav>
+
+    <main class="content">
+      <!-- Tab: Mangás -->
+      <div id="mangasTab" class="tab-content active">
+        <div class="section-header">
+          <h2>Lista de Mangás</h2>
+          <div class="header-actions">
+            <button id="addMangaBtn" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">➕ Adicionar Mangá</button>
+          </div>
+        </div>
+
+        <!-- Filtros de Mangás -->
+        <div class="filters-section">
+          <div class="search-box">
+            <input type="text" id="searchMangaInput" placeholder="🔍 Pesquisar por título...">
+          </div>
+          <div class="filter-group">
+            <label>Status:</label>
+            <select id="statusFilter">
+              <option value="all">Todos</option>
+              <option value="read">Lidos</option>
+              <option value="unread">Não Lidos</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Período:</label>
+            <select id="periodFilter">
+              <option value="all">Todos</option>
+              <option value="today">Hoje</option>
+              <option value="week">Última Semana</option>
+              <option value="month">Último Mês</option>
+              <option value="custom">Personalizado</option>
+            </select>
+          </div>
+          <div class="filter-group date-range" id="dateRangeGroup" style="display: none;">
+            <label>De:</label>
+            <input type="date" id="startDateFilter">
+            <label>Até:</label>
+            <input type="date" id="endDateFilter">
+          </div>
+          <button id="clearFiltersBtn" class="btn btn-secondary">🗑️ Limpar</button>
+        </div>
+        <div id="mangasList" class="mangas-list">
+          <p class="empty-state">Nenhum mangá adicionado ainda. Navegue em sites de mangá para detectar automaticamente ou adicione manualmente.</p>
+        </div>
+      </div>
+
+      <!-- Tab: Sites -->
+      <div id="sitesTab" class="tab-content">
+        <div class="section-header">
+          <h2>Sites de Leitura</h2>
+          <button id="addSiteBtn" class="btn btn-primary">➕ Adicionar Site</button>
+        </div>
+        <div class="filters-section sites-filters">
+          <button class="site-filter-btn btn btn-secondary active" data-filter="all">🌐 Todos</button>
+          <button class="site-filter-btn btn btn-secondary" data-filter="native">🎌 Nativos</button>
+          <button class="site-filter-btn btn btn-secondary" data-filter="custom">🏠 Meus Sites</button>
+          <button class="site-filter-btn btn btn-secondary" data-filter="favorites">⭐ Favoritos</button>
+        </div>
+        <div id="sitesList" class="sites-list">
+          <p class="empty-state">Nenhum site adicionado. Adicione sites de mangá para começar a rastrear.</p>
+        </div>
+      </div>
+
+      <!-- Tab: Histórico -->
+      <div id="historyTab" class="tab-content">
+        <div class="section-header">
+          <h2>Histórico de Leitura</h2>
+        </div>
+
+        <!-- Filtros de Histórico -->
+        <div class="filters-section">
+          <div class="filter-group">
+            <label>Período:</label>
+            <select id="historyPeriodFilter">
+              <option value="all">Todos</option>
+              <option value="today">Hoje</option>
+              <option value="week">Última Semana</option>
+              <option value="month">Último Mês</option>
+              <option value="custom">Personalizado</option>
+            </select>
+          </div>
+          <div class="filter-group date-range" id="historyDateRangeGroup" style="display: none;">
+            <label>De:</label>
+            <input type="date" id="historyStartDate">
+            <label>Até:</label>
+            <input type="date" id="historyEndDate">
+          </div>
+          <button id="clearHistoryFiltersBtn" class="btn btn-secondary">🗑️ Limpar Filtros</button>
+        </div>
+        <div id="historyList" class="history-list">
+          <p class="empty-state">Nenhuma leitura registrada ainda.</p>
+        </div>
+      </div>
+
+      <!-- Tab: Estatísticas -->
+      <div id="statsTab" class="tab-content">
+        <div class="section-header">
+          <h2>Estatísticas de Leitura</h2>
+        </div>
+        
+        <div class="stats-summary-grid">
+          <div class="stats-big-card">
+            <span class="stats-card-label">Total de Mangás</span>
+            <span class="stats-card-value" id="totalMangasCount">0</span>
+          </div>
+          <div class="stats-big-card">
+            <span class="stats-card-label">Lidos Hoje</span>
+            <span class="stats-card-value" id="todayReadsCount">0</span>
+          </div>
+          <div class="stats-big-card">
+            <span class="stats-card-label">Esta Semana</span>
+            <span class="stats-card-value" id="weekReadsCount">0</span>
+          </div>
+          <div class="stats-big-card">
+            <span class="stats-card-label">Total de Leituras</span>
+            <span class="stats-card-value" id="totalReadsCount">0</span>
+          </div>
+        </div>
+
+        <div class="stats-secondary-info" style="margin-top: 30px; display: grid; gap: 30px; grid-template-columns: 1fr 1fr;">
+          <div class="stats-box">
+            <h3>Comparativo Semanal</h3>
+            <div class="comparison-item">
+              <span>Semana Passada</span>
+              <span id="lastWeekReadsCount" class="comparison-value">0</span>
+            </div>
+            <p class="comparison-note">Baseado no histórico de capítulos abertos.</p>
+          </div>
+          
+          <div class="stats-box ranking-box">
+            <h3>Top 10 Mangás Mais Lidos</h3>
+            <div id="topMangasRanking" class="ranking-list">
+              <!-- JS will populate this -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Configurações -->
+      <div id="settingsTab" class="tab-content">
+        <div class="section-header">
+          <h2>Configurações</h2>
+        </div>
+        <div class="settings-container">
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="autoDetectCheckbox" checked>
+              <span>Detecção Automática de Mangás</span>
+            </label>
+            <p class="setting-description">Detecta automaticamente quando você visita páginas de mangá</p>
+          </div>
+
+          <div class="setting-item">
+            <h3>Backup e Exportação</h3>
+            <div id="fileInfo" class="file-info" style="margin-bottom: 12px;">
+              <p id="currentFileName">Banco de dados Local: Nenhum arquivo Persistente Montado</p>
+              <button id="selectFileBtn" class="btn btn-primary" title="Ativa salvamento automático e constante em um arquivo">📁 Montar Arquivo Contínuo</button>
+            </div>
+            <div style="border-top: 1px solid #ddd; margin: 16px 0;"></div>
+            <p style="font-size: 13px; color: #555; margin-bottom: 12px;">Ou faça backup manual avulso dos seus dados:</p>
+            <div class="button-group" style="display: flex; gap: 10px;">
+              <button id="exportJsonBtn" class="btn btn-secondary">⬇️ Exportar JSON</button>
+              <button id="exportXmlBtn" class="btn btn-secondary">⬇️ Exportar XML</button>
+            </div>
+            
+            <div style="margin-top: 16px;">
+              <input type="file" id="importBackupInput" accept=".json,.xml" style="display: none;">
+              <button id="importBackupBtn" class="btn btn-info">⬆️ Restaurar Backup (.json ou .xml)</button>
+            </div>
+          </div>
+
+          <div class="setting-item donation-box">
+            <p>Se você usa o MangaTracker, considere doar R$5 via PIX para apoiar melhorias e manutenção.</p>
+            <button id="donatePixManagerBtn" class="btn btn-donate">Doar R$5 via PIX</button>
+          </div>
+
+          <div class="setting-item danger-zone">
+            <h3>Zona de Perigo</h3>
+            <button id="clearAllDataBtn" class="btn btn-danger">🗑️ Limpar Todos os Dados</button>
+            <p class="setting-description">Remove todos os mangás, sites e histórico (irreversível)</p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="app-footer">
+      <p>Nunca mais perca tempo organizando seus mangas favoritos!</p>
+    </footer>
+  </div>
+
+  <!-- Modal: Adicionar Site -->
+  <div id="addSiteModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Adicionar Site de Leitura</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Nome do Site</label>
+          <input type="text" id="siteNameInput" placeholder="Ex: MangaLivre">
+        </div>
+        <div class="form-group">
+          <label>URL do Site</label>
+          <input type="url" id="siteUrlInput" placeholder="https://mangalivre.to">
+        </div>
+        <div class="form-group">
+          <label>Padrão de URL de Mangá (opcional)</label>
+          <input type="text" id="sitePatternInput" placeholder="Ex: /manga/">
+          <p class="help-text">Padrão para identificar páginas de mangá neste site</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelSiteBtn" class="btn btn-secondary">Cancelar</button>
+        <button id="saveSiteBtn" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Adicionar Mangá Manualmente -->
+  <div id="addMangaModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Adicionar Mangá Manualmente</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Título do Mangá</label>
+          <input type="text" id="mangaTitleInput" placeholder="Ex: One Piece">
+        </div>
+        <div class="form-group">
+          <label>URL da Página do Mangá</label>
+          <input type="url" id="mangaUrlInput" placeholder="https://mangalivre.to/manga/one-piece">
+        </div>
+        <div class="form-group">
+          <label>Site</label>
+          <select id="mangaSiteSelect">
+            <option value="">Selecione um site</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelMangaBtn" class="btn btn-secondary">Cancelar</button>
+        <button id="saveMangaBtn" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Editar Título do Mangá -->
+  <div id="editTitleModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Editar Título do Mangá</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Novo Título</label>
+          <input type="text" id="editTitleInput" placeholder="Ex: Urek Mazino">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelTitleBtn" class="btn btn-secondary">Cancelar</button>
+        <button id="saveTitleBtn" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Ajuda -->
+  <div id="helpModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>❓ Como Usar o Gerenciador de Mangás</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>📚 Aba Mangás</h3>
+        <p>Visualize todos os seus mangás cadastrados. Use o botão "Adicionar Mangá" para incluir novos títulos manualmente.</p>
+
+        <h3>🌐 Aba Sites</h3>
+        <p>Gerencie os sites de leitura suportados. Adicione novos sites para ter controle de onde ler suas obras favoritas. E ele detecatar automaticamente que você está em um mangá.</p>
+
+        <h3>📖 Aba Histórico</h3>
+        <p>Acompanhe seu histórico de leitura com filtros por período.</p>
+
+        <h3>⚙️ Aba Configurações</h3>
+        <p>Configure a detecção automática, selecione arquivo de dados e faça backup dos seus dados.</p>
+
+        <h3>💾 Exportar/Importar</h3>
+        <p>Use os botões na parte superior para fazer backup dos seus dados em formato JSON.</p>
+
+        <h3>💰 Doações</h3>
+        <p>Se você gosta da extensão, considere fazer uma doação simbólica de R$5 via PIX para apoiar o desenvolvimento.</p>
+      </div>
+      <div class="modal-footer">
+        <button id="closeHelpBtn" class="btn btn-primary">Entendi</button>
+      </div>
+  </div>
+
+  <script src="js/version.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/manager.js"></script>
+</body>
+</html>
