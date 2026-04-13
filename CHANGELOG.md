@@ -5,6 +5,18 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [3.0.1] - 2026-04-13
+
+### Adicionado
+- **Manga Tracker CARD**: Nova funcionalidade premium para exportar estatísticas em formato de card colecionável (Super Trunfo).
+- Geração de imagem PNG de alta resolução via Canvas API.
+- Personalização de nome do leitor para o card.
+- Logotipo oficial integrado no cabeçalho dos cards exportados.
+
+### Modificado
+- Atualização da identidade visual para a versão 3.0.1 "Aparência Premium".
+- Melhoria no layout do Gerenciador com novos botões e gradientes.
+
 ## [1.0.0] - 2026-03-18
 
 ### Adicionado
