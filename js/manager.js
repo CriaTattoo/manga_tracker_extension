@@ -71,6 +71,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   const saveTitleBtn = document.getElementById('saveTitleBtn');
   const cancelTitleBtn = document.getElementById('cancelTitleBtn');
 
+  // Modal de Card de Estatísticas
+  const statsCardModal = document.getElementById('statsCardModal');
+  const readerNameInput = document.getElementById('readerNameInput');
+  const generateCardBtn = document.getElementById('generateCardBtn');
+  const cancelStatsCardBtn = document.getElementById('cancelStatsCardBtn');
+  const exportStatsCardBtn = document.getElementById('exportStatsCardBtn');
+
   let editingMangaId = null;
 
   console.log('Manager: Elementos carregados');
@@ -138,6 +145,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.currentSiteFilter = e.target.dataset.filter;
         loadSites();
       });
+    });
+
+    // Exportar Card de Estatísticas
+    exportStatsCardBtn?.addEventListener('click', () => openModal(statsCardModal));
+    cancelStatsCardBtn?.addEventListener('click', () => closeModal(statsCardModal));
+    generateCardBtn?.addEventListener('click', () => {
+      const name = readerNameInput.value.trim();
+      if (!name) {
+        showNotification('Por favor, digite seu nome de leitor!', true);
+        return;
+      }
+      exportStatsCard(name);
+      closeModal(statsCardModal);
     });
 
     // Histórico
@@ -1194,4 +1214,217 @@ document.addEventListener('DOMContentLoaded', async () => {
       closeModal(helpModal);
     }
   });
+
+  // ===== EXPORTAR CARD DE ESTATÍSTICAS (SUPER TRUNFO) =====
+  async function exportStatsCard(readerName) {
+    showNotification('Gerando seu Card Super Trunfo...');
+    
+    const data = StorageManager.getData();
+    const history = data.history || [];
+    const now = new Date();
+    
+    // 1. Coleta de Dados
+    const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).getTime();
+    const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).getTime();
+    const startOfYear = new Date(now.getFullYear(), 0, 1).getTime();
+    
+    let weekCount = 0;
+    let monthCount = 0;
+    let yearCount = 0;
+    
+    const counts = {};
+    history.forEach(item => {
+      const readAt = new Date(item.readAt).getTime();
+      if (readAt >= oneWeekAgo) weekCount++;
+      if (readAt >= oneMonthAgo) monthCount++;
+      if (readAt >= startOfYear) yearCount++;
+      
+      counts[item.title] = (counts[item.title] || 0) + 1;
+    });
+    
+    const avgPerDay = (monthCount / 30).toFixed(1);
+    const topMangas = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+
+    // 2. Configuração do Canvas
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 500;
+    canvas.height = 700;
+    
+    // Antialiasing melhorado
+    ctx.imageSmoothingEnabled = true;
+
+    // 3. Desenho do Fundo (Gradiente Premium)
+    const bgGradient = ctx.createLinearGradient(0, 0, 500, 700);
+    bgGradient.addColorStop(0, '#00d2ff');  // Azul
+    bgGradient.addColorStop(0.5, '#9d50bb'); // Roxo
+    bgGradient.addColorStop(1, '#f06292');   // Rosa
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, 500, 700);
+
+    // Adicionar textura de ruído/brilho sutil
+    ctx.globalAlpha = 0.05;
+    for (let i = 0; i < 1000; i++) {
+        const x = Math.random() * 500;
+        const y = Math.random() * 700;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(x, y, 1, 1);
+    }
+    ctx.globalAlpha = 1.0;
+
+    // 4. Borda do Card
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.lineWidth = 15;
+    drawRoundedRect(ctx, 20, 20, 460, 660, 30);
+    ctx.stroke();
+
+    // 5. Corpo do Card (Glassmorphism)
+    ctx.fillStyle = 'rgba(15, 17, 26, 0.85)';
+    drawRoundedRect(ctx, 35, 35, 430, 630, 20);
+    ctx.fill();
+
+    // 6. Cabeçalho (Logo + CARD)
+    const logoImg = new Image();
+    logoImg.src = 'icons/logo_horizontal.png';
+    await new Promise(resolve => {
+        logoImg.onload = resolve;
+        logoImg.onerror = resolve;
+    });
+
+    const headerY = 55;
+    if (logoImg.complete && logoImg.naturalWidth > 0) {
+        // Redimensionar logo para ser proporcional e não gigante (+33% de destaque)
+        const maxLogoWidth = 240;
+        const logoScale = Math.min(maxLogoWidth / logoImg.naturalWidth, 66 / logoImg.naturalHeight);
+        const logoWidth = logoImg.naturalWidth * logoScale;
+        const logoHeight = logoImg.naturalHeight * logoScale;
+        
+        // Centralizar o conjunto [Logo + CARD]
+        const cardText = 'CARD';
+        ctx.font = 'bold 24px Outfit, sans-serif';
+        const textWidth = ctx.measureText(cardText).width;
+        const spacing = 15;
+        const totalHeaderWidth = logoWidth + spacing + textWidth;
+        const startX = (500 - totalHeaderWidth) / 2;
+        
+        ctx.drawImage(logoImg, startX, headerY, logoWidth, logoHeight);
+        
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        ctx.fillText(cardText, startX + logoWidth + spacing, headerY + (logoHeight / 2) + 10);
+    } else {
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 28px Outfit, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('MANGA TRACKER CARD', 250, headerY + 20);
+    }
+    
+    // 6.5 Caixa do Nome do Leitor (Abaixo do Logo)
+    const nameBoxY = 130;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    drawRoundedRect(ctx, 50, nameBoxY, 400, 50, 10);
+    ctx.fill();
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '600 22px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(readerName.toUpperCase(), 250, nameBoxY + 33);
+
+    // 7. Estatísticas Principais
+    const stats = [
+      { label: 'Sexta-Feira à Quinta', value: weekCount, color: '#00d2ff', title: 'NA SEMANA' },
+      { label: 'Últimos 30 Dias', value: monthCount, color: '#9d50bb', title: 'NO MÊS' },
+      { label: 'Ano Atual', value: yearCount, color: '#f06292', title: 'NO ANO' }
+    ];
+
+    let currentY = 220;
+    stats.forEach(stat => {
+        // Label do período
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'rgba(255,255,255,0.6)';
+        ctx.font = '12px Outfit, sans-serif';
+        ctx.fillText(stat.title, 60, currentY);
+        
+        // Barra de Fundo
+        ctx.fillStyle = 'rgba(255,255,255,0.05)';
+        drawRoundedRect(ctx, 60, currentY + 10, 380, 40, 8);
+        ctx.fill();
+        
+        // Valor e Unidade
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 24px Outfit, sans-serif';
+        ctx.fillText(stat.value, 80, currentY + 38);
+        ctx.font = '14px Outfit, sans-serif';
+        ctx.fillText('capítulos lidos', 150, currentY + 38);
+        
+        currentY += 75;
+    });
+
+    // 8. Média Diária (Destaque)
+    ctx.fillStyle = 'rgba(255,255,255,0.03)';
+    drawRoundedRect(ctx, 60, 415, 380, 50, 10);
+    ctx.fill();
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#00d2ff';
+    ctx.font = 'bold 18px Outfit, sans-serif';
+    ctx.fillText(`MÉDIA DE ${avgPerDay} LIDOS POR DIA`, 250, 447);
+
+    // 9. Top 5 Mangas
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#f06292';
+    ctx.font = 'bold 16px Outfit, sans-serif';
+    ctx.fillText('TOP 5 MANGÁS MAIS LIDOS', 60, 500);
+
+    ctx.font = '14px Outfit, sans-serif';
+    topMangas.forEach(([title, count], idx) => {
+        const y = 530 + (idx * 22);
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.fillText(`${idx + 1}º ${truncateString(title, 35)}`, 60, y);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(`${count} lidos`, 440, y);
+        ctx.textAlign = 'left';
+    });
+
+    // 10. Rodapé
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.font = '11px Outfit, sans-serif';
+    ctx.fillText(`Manga Tracker v${APP_VERSION} • Gerado em ${new Date().toLocaleDateString('pt-BR')}`, 250, 655);
+
+    // 11. Download
+    try {
+        const link = document.createElement('a');
+        link.download = `MangaTracker_Trunfo_${readerName.replace(/\s+/g, '_')}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        showNotification('🚀 Card gerado com sucesso!');
+    } catch (err) {
+        console.error('Erro ao gerar imagem:', err);
+        showNotification('Erro ao gerar imagem. Verifique as permissões.', true);
+    }
+  }
+
+  // Helper: Desenhar Retângulo Arredondado
+  function drawRoundedRect(ctx, x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+  }
+
+  // Helper: Truncar Strings longas
+  function truncateString(str, num) {
+    if (str.length <= num) return str;
+    return str.slice(0, num) + '...';
+  }
 });

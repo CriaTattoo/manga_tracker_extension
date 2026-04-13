@@ -366,6 +366,23 @@ body {
 .btn-secondary { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid var(--glass-border); }
 .btn-info { background: rgba(0, 210, 255, 0.1); color: var(--primary-teal); }
 .btn-danger { background: rgba(239, 68, 68, 0.1); color: #fca5a5; }
+.btn-premium { 
+  background: linear-gradient(135deg, #00d2ff 0%, #9d50bb 50%, #f06292 100%); 
+  color: white; 
+  box-shadow: 0 4px 15px rgba(157, 80, 187, 0.4);
+  border: none;
+}
+.btn-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(157, 80, 187, 0.6);
+  filter: brightness(1.1);
+}
+
+.help-text {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
 
 .btn.active {
   background: var(--gradient-main);

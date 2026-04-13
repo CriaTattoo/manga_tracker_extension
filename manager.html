@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gerenciador de Mangás</title>
   <link rel="stylesheet" href="css/manager.css">
 </head>
+
 <body>
   <div class="app-container">
     <header class="app-header">
@@ -37,7 +39,8 @@
         <div class="section-header">
           <h2>Lista de Mangás</h2>
           <div class="header-actions">
-            <button id="addMangaBtn" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">➕ Adicionar Mangá</button>
+            <button id="addMangaBtn" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">➕ Adicionar
+              Mangá</button>
           </div>
         </div>
 
@@ -73,7 +76,8 @@
           <button id="clearFiltersBtn" class="btn btn-secondary">🗑️ Limpar</button>
         </div>
         <div id="mangasList" class="mangas-list">
-          <p class="empty-state">Nenhum mangá adicionado ainda. Navegue em sites de mangá para detectar automaticamente ou adicione manualmente.</p>
+          <p class="empty-state">Nenhum mangá adicionado ainda. Navegue em sites de mangá para detectar automaticamente
+            ou adicione manualmente.</p>
         </div>
       </div>
 
@@ -129,8 +133,9 @@
       <div id="statsTab" class="tab-content">
         <div class="section-header">
           <h2>Estatísticas de Leitura</h2>
+          <button id="exportStatsCardBtn" class="btn btn-premium">✨ Exportar Manga Tracker Card</button>
         </div>
-        
+
         <div class="stats-summary-grid">
           <div class="stats-big-card">
             <span class="stats-card-label">Total de Mangás</span>
@@ -150,7 +155,8 @@
           </div>
         </div>
 
-        <div class="stats-secondary-info" style="margin-top: 30px; display: grid; gap: 30px; grid-template-columns: 1fr 1fr;">
+        <div class="stats-secondary-info"
+          style="margin-top: 30px; display: grid; gap: 30px; grid-template-columns: 1fr 1fr;">
           <div class="stats-box">
             <h3>Comparativo Semanal</h3>
             <div class="comparison-item">
@@ -159,7 +165,7 @@
             </div>
             <p class="comparison-note">Baseado no histórico de capítulos abertos.</p>
           </div>
-          
+
           <div class="stats-box ranking-box">
             <h3>Top 10 Mangás Mais Lidos</h3>
             <div id="topMangasRanking" class="ranking-list">
@@ -187,15 +193,17 @@
             <h3>Backup e Exportação</h3>
             <div id="fileInfo" class="file-info" style="margin-bottom: 12px;">
               <p id="currentFileName">Banco de dados Local: Nenhum arquivo Persistente Montado</p>
-              <button id="selectFileBtn" class="btn btn-primary" title="Ativa salvamento automático e constante em um arquivo">📁 Montar Arquivo Contínuo</button>
+              <button id="selectFileBtn" class="btn btn-primary"
+                title="Ativa salvamento automático e constante em um arquivo">📁 Montar Arquivo Contínuo</button>
             </div>
             <div style="border-top: 1px solid #ddd; margin: 16px 0;"></div>
-            <p style="font-size: 13px; color: #555; margin-bottom: 12px;">Ou faça backup manual avulso dos seus dados:</p>
+            <p style="font-size: 13px; color: #555; margin-bottom: 12px;">Ou faça backup manual avulso dos seus dados:
+            </p>
             <div class="button-group" style="display: flex; gap: 10px;">
               <button id="exportJsonBtn" class="btn btn-secondary">⬇️ Exportar JSON</button>
               <button id="exportXmlBtn" class="btn btn-secondary">⬇️ Exportar XML</button>
             </div>
-            
+
             <div style="margin-top: 16px;">
               <input type="file" id="importBackupInput" accept=".json,.xml" style="display: none;">
               <button id="importBackupBtn" class="btn btn-info">⬆️ Restaurar Backup (.json ou .xml)</button>
@@ -308,10 +316,12 @@
       </div>
       <div class="modal-body">
         <h3>📚 Aba Mangás</h3>
-        <p>Visualize todos os seus mangás cadastrados. Use o botão "Adicionar Mangá" para incluir novos títulos manualmente.</p>
+        <p>Visualize todos os seus mangás cadastrados. Use o botão "Adicionar Mangá" para incluir novos títulos
+          manualmente.</p>
 
         <h3>🌐 Aba Sites</h3>
-        <p>Gerencie os sites de leitura suportados. Adicione novos sites para ter controle de onde ler suas obras favoritas. E ele detecatar automaticamente que você está em um mangá.</p>
+        <p>Gerencie os sites de leitura suportados. Adicione novos sites para ter controle de onde ler suas obras
+          favoritas. E ele detecatar automaticamente que você está em um mangá.</p>
 
         <h3>📖 Aba Histórico</h3>
         <p>Acompanhe seu histórico de leitura com filtros por período.</p>
@@ -323,15 +333,38 @@
         <p>Use os botões na parte superior para fazer backup dos seus dados em formato JSON.</p>
 
         <h3>💰 Doações</h3>
-        <p>Se você gosta da extensão, considere fazer uma doação simbólica de R$5 via PIX para apoiar o desenvolvimento.</p>
+        <p>Se você gosta da extensão, considere fazer uma doação simbólica de R$5 via PIX para apoiar o desenvolvimento.
+        </p>
       </div>
       <div class="modal-footer">
         <button id="closeHelpBtn" class="btn btn-primary">Entendi</button>
       </div>
+    </div>
   </div>
 
+  <!-- Modal: Nome do Leitor para Card -->
+  <div id="statsCardModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Criar seu Manga Tracker Card</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Como você quer ser chamado no Card?</label>
+          <input type="text" id="readerNameInput" placeholder="Ex: Solo Leveling Pro">
+          <p class="help-text">Seu nome aparecerá no topo do Manga Tracker Card!</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelStatsCardBtn" class="btn btn-secondary">Cancelar</button>
+        <button id="generateCardBtn" class="btn btn-premium">Gerar Card ✨</button>
+      </div>
+    </div>
+  </div>
   <script src="js/version.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/manager.js"></script>
 </body>
+
 </html>
