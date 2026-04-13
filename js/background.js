@@ -95,19 +95,29 @@ async function initStorage() {
   if (!storageInitialized) {
     try {
       const result = await chrome.storage.local.get(['mangaData']);
-      if (!result.mangaData) {
-        await chrome.storage.local.set({
-          mangaData: {
-            sites: [],
-            mangas: [],
-            history: [],
-            settings: {
-              autoDetect: true,
-              notifications: true
-            }
-          }
-        });
+      let mangaData = result.mangaData;
+      
+      const defaults = {
+        sites: [],
+        mangas: [],
+        history: [],
+        settings: {
+          autoDetect: true,
+          notifications: true
+        }
+      };
+
+      if (!mangaData) {
+        mangaData = defaults;
+      } else {
+        // Garantir que todas as chaves obrigatórias existam
+        mangaData.sites = mangaData.sites || [];
+        mangaData.mangas = mangaData.mangas || [];
+        mangaData.history = mangaData.history || [];
+        mangaData.settings = { ...defaults.settings, ...mangaData.settings };
       }
+
+      await chrome.storage.local.set({ mangaData });
       storageInitialized = true;
     } catch (error) {
       console.error('Erro ao inicializar storage:', error);
@@ -221,7 +231,11 @@ async function handleMangaDetection(data, sender) {
     }
 
     // Verificar se a URL do site está cadastrada
-    const site = mangaData.sites.find(s => data.url.includes(s.url));
+    if (!data.url || !mangaData.sites || !Array.isArray(mangaData.sites)) {
+      return;
+    }
+
+    const site = mangaData.sites.find(s => s.url && data.url.includes(s.url));
 
     if (!site) {
       console.log('Site não cadastrado, conteúdo detectado mas ignorado');
@@ -229,6 +243,10 @@ async function handleMangaDetection(data, sender) {
     }
 
     // Verificar se o mangá já está na lista
+    if (!mangaData.mangas || !Array.isArray(mangaData.mangas)) {
+      mangaData.mangas = [];
+    }
+
     let existingManga = mangaData.mangas.find(m =>
       (m.url && data.url.includes(m.url)) || m.lastChapterUrl === data.url
     );
@@ -236,9 +254,12 @@ async function handleMangaDetection(data, sender) {
     // Fallback: Busca por Título + Hostname (Útil para sites como MangaPlus onde IDs não batem)
     if (!existingManga && data.title) {
       try {
-        const currentHost = new URL(data.url).hostname;
+        const urlObj = new URL(data.url);
+        const currentHost = urlObj.hostname;
+        
         existingManga = mangaData.mangas.find(m => {
           try {
+            if (!m.url) return false;
             const mHost = new URL(m.url).hostname;
             // Mesmo site e mesmo título (ignora case)
             return mHost === currentHost && m.title.toLowerCase().trim() === data.title.toLowerCase().trim();
@@ -255,7 +276,7 @@ async function handleMangaDetection(data, sender) {
       console.log('Mangá já cadastrado:', existingManga.title);
 
       // Se for uma página de capítulo, sugerir marcar como lido
-      if (data.chapter && sender.tab) {
+      if (data.chapter && sender.tab && sender.tab.id) {
         await chrome.tabs.sendMessage(sender.tab.id, {
           action: 'showNotification',
           text: `${existingManga.title} - Deseja marcar o capítulo ${data.chapter} como lido?`,
@@ -274,7 +295,7 @@ async function handleMangaDetection(data, sender) {
       // Novo mangá detectado
       console.log('Novo mangá detectado:', data.title);
 
-      if (sender.tab) {
+      if (sender.tab && sender.tab.id) {
         await chrome.tabs.sendMessage(sender.tab.id, {
           action: 'showNotification',
           text: `Novo mangá detectado: ${data.title}. Abra a extensão para adicionar.`,

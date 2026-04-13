@@ -46,9 +46,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const data = StorageManager.getData();
       statsSection.style.display = 'block';
-      const totalMangasCount = data.mangas.length;
-      const totalSitesCount = data.sites.length;
-      const totalReadingsCount = data.history.length;
+      
+      const totalMangasCount = (data.mangas && Array.isArray(data.mangas)) ? data.mangas.length : 0;
+      const totalSitesCount = (data.sites && Array.isArray(data.sites)) ? data.sites.length : 0;
+      const totalReadingsCount = (data.history && Array.isArray(data.history)) ? data.history.length : 0;
 
       const now = new Date();
       const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());

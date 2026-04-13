@@ -60,7 +60,17 @@ const StorageManager = {
     try {
       const result = await chrome.storage.local.get(['mangaData']);
       if (result.mangaData) {
-        this.data = result.mangaData;
+        // Garantir integridade da estrutura
+        const mangaData = result.mangaData;
+        
+        mangaData.sites = Array.isArray(mangaData.sites) ? mangaData.sites : [];
+        mangaData.mangas = Array.isArray(mangaData.mangas) ? mangaData.mangas : [];
+        mangaData.history = Array.isArray(mangaData.history) ? mangaData.history : [];
+        
+        const defaultSettings = { autoDetect: true, notifications: true };
+        mangaData.settings = { ...defaultSettings, ...(mangaData.settings || {}) };
+        
+        this.data = mangaData;
       }
       return this.data;
     } catch (error) {
