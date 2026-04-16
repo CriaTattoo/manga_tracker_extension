@@ -1251,24 +1251,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = 500;
-    canvas.height = 700;
+    canvas.height = 750;
     
     // Antialiasing melhorado
     ctx.imageSmoothingEnabled = true;
 
     // 3. Desenho do Fundo (Gradiente Premium)
-    const bgGradient = ctx.createLinearGradient(0, 0, 500, 700);
+    const bgGradient = ctx.createLinearGradient(0, 0, 500, 750);
     bgGradient.addColorStop(0, '#00d2ff');  // Azul
     bgGradient.addColorStop(0.5, '#9d50bb'); // Roxo
     bgGradient.addColorStop(1, '#f06292');   // Rosa
     ctx.fillStyle = bgGradient;
-    ctx.fillRect(0, 0, 500, 700);
+    ctx.fillRect(0, 0, 500, 750);
 
     // Adicionar textura de ruído/brilho sutil
     ctx.globalAlpha = 0.05;
     for (let i = 0; i < 1000; i++) {
         const x = Math.random() * 500;
-        const y = Math.random() * 700;
+        const y = Math.random() * 750;
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(x, y, 1, 1);
     }
@@ -1277,12 +1277,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 4. Borda do Card
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
     ctx.lineWidth = 15;
-    drawRoundedRect(ctx, 20, 20, 460, 660, 30);
+    drawRoundedRect(ctx, 20, 20, 460, 710, 30);
     ctx.stroke();
 
     // 5. Corpo do Card (Glassmorphism)
     ctx.fillStyle = 'rgba(15, 17, 26, 0.85)';
-    drawRoundedRect(ctx, 35, 35, 430, 630, 20);
+    drawRoundedRect(ctx, 35, 35, 430, 680, 20);
     ctx.fill();
 
     // 6. Cabeçalho (Logo + CARD)
@@ -1388,11 +1388,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         ctx.textAlign = 'left';
     });
 
-    // 10. Rodapé
+    // 10. Links e Rodapé
     ctx.textAlign = 'center';
+    
+    // Divulgação
+    ctx.fillStyle = '#00d2ff';
+    ctx.font = 'bold 13px Outfit, sans-serif';
+    ctx.fillText('BAIXE A EXTENSÃO:', 250, 635);
+    
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.font = '12px Outfit, sans-serif';
+    ctx.fillText('github.com/CriaTattoo/manga_tracker_extension', 250, 655);
+    ctx.fillText('sites.google.com/view/mangatrackerext', 250, 672);
+
+    // Rodapé
     ctx.fillStyle = 'rgba(255,255,255,0.3)';
     ctx.font = '11px Outfit, sans-serif';
-    ctx.fillText(`Manga Tracker v${APP_VERSION} • Gerado em ${new Date().toLocaleDateString('pt-BR')}`, 250, 655);
+    ctx.fillText(`Manga Tracker v${APP_VERSION} • Gerado em ${new Date().toLocaleDateString('pt-BR')}`, 250, 705);
 
     // 11. Download
     try {
