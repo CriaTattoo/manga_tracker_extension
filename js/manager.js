@@ -1409,7 +1409,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 11. Download
     try {
         const link = document.createElement('a');
-        link.download = `MangaTracker_Trunfo_${readerName.replace(/\s+/g, '_')}.png`;
+        const now = new Date();
+        const dateStr = String(now.getDate()).padStart(2, '0') +
+                        String(now.getMonth() + 1).padStart(2, '0') +
+                        String(now.getFullYear()).slice(-2) +
+                        String(now.getHours()).padStart(2, '0') +
+                        String(now.getMinutes()).padStart(2, '0') +
+                        String(now.getSeconds()).padStart(2, '0');
+        link.download = `MangaTracker_${dateStr}_${readerName.replace(/\s+/g, '_')}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
         showNotification('🚀 Card gerado com sucesso!');
