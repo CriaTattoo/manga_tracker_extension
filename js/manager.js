@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const exportStatsCardBtn = document.getElementById('exportStatsCardBtn');
 
   let editingMangaId = null;
+  let currentPages = { mangas: 1, sites: 1, history: 1 };
 
   console.log('Manager: Elementos carregados');
 
@@ -95,12 +96,66 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('Manager: Iniciando...');
     await StorageManager.init();
     console.log('Manager: Storage inicializado');
+    
+    // Load config de default pagination antes do data loading
+    const data = StorageManager.getData();
+    if (data.settings && data.settings.defaultItemsPerPage) {
+      const defaultSelect = document.getElementById('defaultItemsPerPage');
+      if (defaultSelect) defaultSelect.value = data.settings.defaultItemsPerPage;
+    }
+
     await loadAllData();
     console.log('Manager: Dados carregados');
     setupEventListeners();
     console.log('Manager: Event listeners configurados');
     loadSettings();
     console.log('Manager: Inicialização completa');
+  }
+
+  // --- Função auxiliar de Paginação ---
+  function getPaginatedSlice(tabId, filteredArray) {
+    const defaultSelect = document.getElementById('defaultItemsPerPage');
+    const localSelect = document.getElementById(`${tabId}ItemsPerPage`);
+    
+    // Sincroniza selects se recém renderizados
+    if (localSelect && !localSelect.dataset.initialized) {
+      localSelect.value = defaultSelect ? defaultSelect.value : '24';
+      localSelect.dataset.initialized = 'true';
+    }
+
+    if (!localSelect || localSelect.value === 'all') {
+      const navEl = document.getElementById(`${tabId}PageNav`);
+      if (navEl) navEl.innerHTML = '';
+      return filteredArray;
+    }
+
+    const perPage = parseInt(localSelect.value, 10) || 24;
+    const totalItems = filteredArray.length;
+    let totalPages = Math.ceil(totalItems / perPage);
+    if (totalPages < 1) totalPages = 1;
+
+    let cPage = currentPages[tabId] || 1;
+    if (cPage > totalPages) cPage = totalPages;
+    if (cPage < 1) cPage = 1;
+    currentPages[tabId] = cPage;
+
+    const navEl = document.getElementById(`${tabId}PageNav`);
+    if (navEl) {
+      if (totalItems === 0 || totalPages <= 1) {
+        navEl.innerHTML = '';
+      } else {
+        const prevStyle = cPage === 1 ? 'opacity: 0.5; cursor: not-allowed;' : 'cursor: pointer;';
+        const nextStyle = cPage === totalPages ? 'opacity: 0.5; cursor: not-allowed;' : 'cursor: pointer;';
+        navEl.innerHTML = `
+          <button class="btn btn-secondary btn-sm page-nav-prev" data-target="${tabId}" style="${prevStyle}">&laquo; Anterior</button>
+          <span style="margin: 0 10px; font-weight: bold;">Página ${cPage} de ${totalPages}</span>
+          <button class="btn btn-secondary btn-sm page-nav-next" data-target="${tabId}" style="${nextStyle}">Próxima &raquo;</button>
+        `;
+      }
+    }
+
+    const startIndex = (cPage - 1) * perPage;
+    return filteredArray.slice(startIndex, startIndex + perPage);
   }
 
   // Carregar todos os dados
@@ -183,6 +238,55 @@ document.addEventListener('DOMContentLoaded', async () => {
     nicknameInput.addEventListener('blur', saveSettings);
     selectFileBtn.addEventListener('click', selectFile);
     clearAllDataBtn.addEventListener('click', clearAllData);
+
+    const defaultItemsSelect = document.getElementById('defaultItemsPerPage');
+    if (defaultItemsSelect) {
+      defaultItemsSelect.addEventListener('change', () => {
+        saveSettings();
+        document.querySelectorAll('.per-page-select').forEach(select => {
+          if (select !== defaultItemsSelect) {
+            select.value = defaultItemsSelect.value;
+            const tabId = select.id.replace('ItemsPerPage', '');
+            currentPages[tabId] = 1;
+          }
+        });
+        loadMangas();
+        loadSites();
+        loadHistory();
+      });
+    }
+
+    document.querySelectorAll('.per-page-select').forEach(select => {
+      if (select.id !== 'defaultItemsPerPage') {
+        select.addEventListener('change', (e) => {
+          const tabId = e.target.id.replace('ItemsPerPage', '');
+          currentPages[tabId] = 1;
+          if (tabId === 'mangas') loadMangas();
+          else if (tabId === 'sites') loadSites();
+          else if (tabId === 'history') loadHistory();
+        });
+      }
+    });
+
+    document.body.addEventListener('click', (e) => {
+      if (e.target.classList.contains('page-nav-prev')) {
+        const tabId = e.target.dataset.target;
+        if (currentPages[tabId] && currentPages[tabId] > 1) {
+          currentPages[tabId]--;
+          if (tabId === 'mangas') loadMangas();
+          else if (tabId === 'sites') loadSites();
+          else if (tabId === 'history') loadHistory();
+        }
+      } else if (e.target.classList.contains('page-nav-next')) {
+        const tabId = e.target.dataset.target;
+        if (e.target.style.cursor !== 'not-allowed') {
+          currentPages[tabId]++;
+          if (tabId === 'mangas') loadMangas();
+          else if (tabId === 'sites') loadSites();
+          else if (tabId === 'history') loadHistory();
+        }
+      }
+    });
 
     const exportJsonBtn = document.getElementById('exportJsonBtn');
     const exportXmlBtn = document.getElementById('exportXmlBtn');
@@ -368,7 +472,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       `;
     }
 
-    if (mangas.length === 0) {
+    const paginatedMangas = getPaginatedSlice('mangas', mangas);
+
+    if (paginatedMangas.length === 0) {
       mangasList.textContent = '';
       const empty = document.createElement('p');
       empty.className = 'empty-state';
@@ -378,7 +484,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     mangasList.textContent = '';
-    mangas.forEach(manga => {
+    paginatedMangas.forEach(manga => {
       const mangaCard = document.createElement('div');
       mangaCard.className = 'manga-card';
       mangaCard.dataset.id = manga.id;
@@ -775,7 +881,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       `;
     }
 
-    if (sites.length === 0) {
+    const paginatedSites = getPaginatedSlice('sites', sites);
+
+    if (paginatedSites.length === 0) {
       sitesList.textContent = '';
       const empty = document.createElement('p');
       empty.className = 'empty-state';
@@ -785,7 +893,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     sitesList.textContent = '';
-    sites.forEach(site => {
+    paginatedSites.forEach(site => {
       const siteCard = document.createElement('div');
       siteCard.className = 'site-card';
       siteCard.dataset.id = site.id;
@@ -975,17 +1083,19 @@ document.addEventListener('DOMContentLoaded', async () => {
       history = history.filter(h => new Date(h.readAt) >= monthAgo);
     }
 
-    if (history.length === 0) {
+    const paginatedHistory = getPaginatedSlice('history', history);
+
+    if (paginatedHistory.length === 0) {
       historyList.textContent = '';
       const empty = document.createElement('p');
       empty.className = 'empty-state';
-      empty.textContent = 'Nenhuma leitura no período selecionado.';
+      empty.textContent = 'Nenhuma leitura registrada ainda.';
       historyList.appendChild(empty);
       return;
     }
 
     historyList.textContent = '';
-    history.forEach(item => {
+    paginatedHistory.forEach(item => {
       const historyItem = document.createElement('div');
       historyItem.className = 'history-item';
 
@@ -1140,6 +1250,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     autoDetectCheckbox.checked = settings.autoDetect !== false;
     if (nicknameInput) nicknameInput.value = settings.nickname || '';
+
+    const defaultSelect = document.getElementById('defaultItemsPerPage');
+    if (defaultSelect && settings.defaultItemsPerPage) {
+      defaultSelect.value = settings.defaultItemsPerPage;
+    }
   }
 
   async function saveSettings() {
@@ -1148,6 +1263,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     settings.autoDetect = autoDetectCheckbox.checked;
     if (nicknameInput) settings.nickname = nicknameInput.value.trim();
+
+    const defaultSelect = document.getElementById('defaultItemsPerPage');
+    if (defaultSelect) settings.defaultItemsPerPage = defaultSelect.value;
 
     await StorageManager.updateSettings(settings);
     await loadStatistics();

@@ -109,6 +109,20 @@
           <!-- JS vai popular os contadores -->
         </div>
 
+        <div class="pagination-controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 6px;">
+          <div class="items-per-page">
+            <label style="margin-right: 5px;">Mostrar: </label>
+            <select id="mangasItemsPerPage" class="per-page-select" style="padding: 5px; border-radius: 4px; border: 1px solid #4a5568; background-color: #2d3748; color: white;">
+              <option value="12">12</option>
+              <option value="24">24</option>
+              <option value="60">60</option>
+              <option value="100">100</option>
+              <option value="all">Todos</option>
+            </select>
+          </div>
+          <div class="page-navigation" id="mangasPageNav"></div>
+        </div>
+
         <div id="mangasList" class="mangas-list">
           <p class="empty-state">Nenhum mangá adicionado ainda. Navegue em sites de mangá para detectar automaticamente
             ou adicione manualmente.</p>
@@ -130,6 +144,20 @@
         
         <div id="sitesSummary" class="items-summary" style="display: flex; gap: 15px; margin-bottom: 20px; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px;">
           <!-- JS vai popular os contadores -->
+        </div>
+
+        <div class="pagination-controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 6px;">
+          <div class="items-per-page">
+            <label style="margin-right: 5px;">Mostrar: </label>
+            <select id="sitesItemsPerPage" class="per-page-select" style="padding: 5px; border-radius: 4px; border: 1px solid #4a5568; background-color: #2d3748; color: white;">
+              <option value="12">12</option>
+              <option value="24">24</option>
+              <option value="60">60</option>
+              <option value="100">100</option>
+              <option value="all">Todos</option>
+            </select>
+          </div>
+          <div class="page-navigation" id="sitesPageNav"></div>
         </div>
 
         <div id="sitesList" class="sites-list">
@@ -163,6 +191,21 @@
           </div>
           <button id="clearHistoryFiltersBtn" class="btn btn-secondary">🗑️ Limpar Filtros</button>
         </div>
+
+        <div class="pagination-controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 6px;">
+          <div class="items-per-page">
+            <label style="margin-right: 5px;">Mostrar: </label>
+            <select id="historyItemsPerPage" class="per-page-select" style="padding: 5px; border-radius: 4px; border: 1px solid #4a5568; background-color: #2d3748; color: white;">
+              <option value="12">12</option>
+              <option value="24">24</option>
+              <option value="60">60</option>
+              <option value="100">100</option>
+              <option value="all">Todos</option>
+            </select>
+          </div>
+          <div class="page-navigation" id="historyPageNav"></div>
+        </div>
+
         <div id="historyList" class="history-list">
           <p class="empty-state">Nenhuma leitura registrada ainda.</p>
         </div>
@@ -226,6 +269,18 @@
               <span>Detecção Automática de Mangás</span>
             </label>
             <p class="setting-description">Detecta automaticamente quando você visita páginas de mangá</p>
+          </div>
+
+          <div class="setting-item">
+            <h3>Paginação Padrão</h3>
+            <p class="setting-description" style="margin-bottom: 8px;">Defina a quantidade padrão de itens exibidos por página nas listas.</p>
+            <select id="defaultItemsPerPage" style="width: 100%; max-width: 300px; padding: 10px; border-radius: 6px; border: 1px solid #4a5568; background-color: #2d3748; color: white;">
+              <option value="12">12 itens</option>
+              <option value="24" selected>24 itens</option>
+              <option value="60">60 itens</option>
+              <option value="100">100 itens</option>
+              <option value="all">Mostrar Todos</option>
+            </select>
           </div>
 
           <div class="setting-item">
