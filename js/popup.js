@@ -441,7 +441,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const appSignatures = document.querySelectorAll('.app-signature');
   appSignatures.forEach(signature => {
     if (signature) {
-      signature.textContent = `${APP_SIGNATURE} v${APP_VERSION}`;
+      signature.innerHTML = `Manga Tracker - Personal Library Journal<br>By: ZiggPony 2026 - v${APP_VERSION}`;
+      signature.style.textAlign = 'center';
+      signature.style.lineHeight = '1.4';
     }
   });
 });

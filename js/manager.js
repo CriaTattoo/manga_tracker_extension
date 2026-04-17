@@ -349,6 +349,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
 
+    // --- Atualizando contadores de Mangas ---
+    const mangasSummary = document.getElementById('mangasSummary');
+    if (mangasSummary) {
+      let cLendo = 0, cLido = 0, cVouLer = 0, cDropado = 0;
+      mangas.forEach(m => {
+        const s = m.status || 'lendo';
+        if (s === 'lendo') cLendo++;
+        else if (s === 'lido') cLido++;
+        else if (s === 'vou ler') cVouLer++;
+        else if (s === 'dropei') cDropado++;
+      });
+      mangasSummary.innerHTML = `
+        <span style="color: #4ade80;">Lidos: ${cLido}</span> | 
+        <span style="color: #00d2ff;">Lendo: ${cLendo}</span> | 
+        <span style="color: #fbbf24;">Vou Ler: ${cVouLer}</span> | 
+        <span style="color: #f87171;">Dropados: ${cDropado}</span>
+      `;
+    }
+
     if (mangas.length === 0) {
       mangasList.textContent = '';
       const empty = document.createElement('p');
@@ -747,6 +766,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Ordenar (Favoritos primeiro, depois por nome)
     sites.sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0) || a.name.localeCompare(b.name));
+
+    // --- Atualizando contadores de Sites ---
+    const sitesSummary = document.getElementById('sitesSummary');
+    if (sitesSummary) {
+      sitesSummary.innerHTML = `
+        <span style="color: #667eea;">Total de Sites Listados: ${sites.length}</span>
+      `;
+    }
 
     if (sites.length === 0) {
       sitesList.textContent = '';
