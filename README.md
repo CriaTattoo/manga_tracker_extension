@@ -1,4 +1,4 @@
-# 📚 Manga Tracker - Extensão para Chrome (v3.0.1)
+# 📚 Manga Tracker - Extensão para Chrome (v4.0.0)
 
 Uma extensão completa e premium para gerenciamento de leitura de mangás no navegador Chrome (e outros navegadores baseados em Chromium).
 
@@ -6,7 +6,9 @@ Uma extensão completa e premium para gerenciamento de leitura de mangás no nav
 
 - 🔍 **Detecção Automática**: Detecta automaticamente quando você visita páginas de mangás.
 - 📝 **Gerenciamento Completo**: Adicione mangás, sites e gerencie sua lista de leitura.
-- 🃏 **Manga Tracker Cards**: Gere cards colecionáveis (Super Trunfo) com suas estatísticas e compartilhe seu progresso! (Novo na v3.0)
+- 🃏 **Manga Tracker Cards**: Gere cards colecionáveis (Super Trunfo) com suas estatísticas e compartilhe seu progresso!
+- 🗂️ **Paginação Universal**: Navegue facilmente por listas gigantes configurando a quantidade de itens [12, 24, 60, 100, Todos]! (Novo na v4.0.0)
+- 📈 **Resumos Dinâmicos**: Acompanhe o total de Lidos, Lendo, Dropados em tempo real direto na interface! (Novo na v4.0.0)
 - ⏱️ **Histórico de Leitura**: Mantenha registro de todos os capítulos que você leu.
 - 📊 **Estatísticas Avançadas**: Visualize seu volume de leitura semanal, mensal e anual.
 - 🔔 **Notificações**: Receba alertas sobre novos capítulos disponíveis.
@@ -53,6 +55,13 @@ Uma extensão completa e premium para gerenciamento de leitura de mangás no nav
 2. Clique no botão **"✨ Exportar Manga Tracker Card"**.
 3. Insira seu nome de leitor e clique em **"Gerar Card"**.
 4. Um arquivo PNG de alta resolução será baixado automaticamente!
+
+### 🗂️ Navegação e Paginação (Novidade)
+
+Para gerenciar grandes bibliotecas sem perder performance, as abas de Mangás, Sites e Histórico agora possuem paginação.
+1. Vá até a aba **"Configurações"**.
+2. Defina o tamanho da **"Paginação Padrão"** (ex: 12, 24, 60, ou 100 itens).
+3. Todas as abas passarão a usar essa visualização otimizada imediatamente, contando ainda com a nova barra de progresso / summary no cabeçalho das listas!
 
 ### Adicionando Sites e Mangás
 

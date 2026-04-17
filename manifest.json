@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Manga Tracker - Personal Library Journal",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "Gerencie sua biblioteca pessoal de mangás, organize seu histórico de leitura e acompanhe seu progresso de forma profissional e privada.",
   "permissions": [
     "storage",
