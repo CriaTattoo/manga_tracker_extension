@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     nicknameInput.addEventListener('blur', saveSettings);
     selectFileBtn.addEventListener('click', selectFile);
     clearAllDataBtn.addEventListener('click', clearAllData);
-    
+
     const exportJsonBtn = document.getElementById('exportJsonBtn');
     const exportXmlBtn = document.getElementById('exportXmlBtn');
     const importBackupBtn = document.getElementById('importBackupBtn');
@@ -212,9 +212,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const content = event.target.result;
         let success = false;
         if (file.name.endsWith('.xml')) {
-           success = await StorageManager.importFromXML(content);
+          success = await StorageManager.importFromXML(content);
         } else {
-           success = await StorageManager.importData(content);
+          success = await StorageManager.importData(content);
         }
 
         if (success) {
@@ -234,10 +234,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (donationManagerHoverShown) return;
       donationManagerHoverShown = true;
       alert('Para proteger sua leitura de sites que caem e links que somem, eu trago ate você o MangaTracker. 📖\n\n' +
-      'E para que o projeto continue existindo, ele precisa de energia — e essa energia vem de você!  o que \n' +
-	    'É o que chamamos de troca equivalente! \n\n' +
-      'Uma doação simbólica de R$5 via PIX é o sacrifício ideal para mantermos essa ferramenta viva e livre e sem anúncios para todos. ⚙️🔥\n\n' +
-      'Vamos manter esse projeto de pé juntos? 🙏');
+        'E para que o projeto continue existindo, ele precisa de energia — e essa energia vem de você!  o que \n' +
+        'É o que chamamos de troca equivalente! \n\n' +
+        'Uma doação simbólica de R$5 via PIX é o sacrifício ideal para mantermos essa ferramenta viva e livre e sem anúncios para todos. ⚙️🔥\n\n' +
+        'Vamos manter esse projeto de pé juntos? 🙏');
     });
     donatePixManagerBtn?.addEventListener('click', () => {
       const confirmMsg = 'Você será redirecionado para pagar R$5 via PIX ao projeto MangaTracker. Deseja continuar?';
@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Aplicar filtro de busca por texto
     if (filter) {
-      mangas = mangas.filter(m => 
+      mangas = mangas.filter(m =>
         m.title.toLowerCase().includes(filter.toLowerCase())
       );
     }
@@ -369,12 +369,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       const title = document.createElement('h3');
       title.className = 'manga-title';
       title.textContent = manga.title;
-      
+
       const site = data.sites.find(s => s.id === manga.siteId);
       const siteTag = document.createElement('span');
       siteTag.className = 'manga-site';
       siteTag.textContent = site ? site.name : 'Desconhecido';
-      
+
       mangaHeader.append(title, siteTag);
 
       const mangaInfo = document.createElement('div');
@@ -384,20 +384,20 @@ document.addEventListener('DOMContentLoaded', async () => {
       badgesDiv.style.display = 'flex';
       badgesDiv.style.gap = '8px';
       badgesDiv.style.marginBottom = '8px';
-      
+
       const statusBadge = document.createElement('span');
       statusBadge.style.padding = '3px 8px';
       statusBadge.style.borderRadius = '4px';
       statusBadge.style.fontSize = '12px';
       statusBadge.style.fontWeight = 'bold';
-      
+
       const statusMap = {
         'lendo': { text: 'Lendo', color: '#00d2ff', bg: 'rgba(0, 210, 255, 0.2)' },
         'lido': { text: 'Lido', color: '#4ade80', bg: 'rgba(74, 222, 128, 0.2)' },
         'vou ler': { text: 'Vou Ler', color: '#fbbf24', bg: 'rgba(251, 191, 36, 0.2)' },
         'dropei': { text: 'Dropei', color: '#f87171', bg: 'rgba(248, 113, 113, 0.2)' }
       };
-      
+
       const statusDef = statusMap[manga.status] || statusMap['lendo'];
       statusBadge.textContent = statusDef.text;
       statusBadge.style.color = statusDef.color;
@@ -412,7 +412,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ratingBadge.style.fontWeight = 'bold';
         ratingBadge.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
         ratingBadge.style.color = '#fff';
-        
+
         const ratingMap = {
           'BRABISSIMO': 'BRABÍSSIMO 🔥',
           'brabo': 'Brabo',
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ratingBadge.textContent = ratingMap[manga.rating] || manga.rating;
         badgesDiv.appendChild(ratingBadge);
       }
-      
+
       mangaInfo.appendChild(badgesDiv);
 
       const urlInfo = document.createElement('p');
@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       strong.textContent = 'URL:';
       urlInfo.appendChild(strong);
       urlInfo.appendChild(document.createTextNode(' '));
-      
+
       const urlText = document.createElement('span');
       urlText.style.fontSize = '11px';
       urlText.style.color = '#888';
@@ -528,9 +528,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       // Buscar a página do mangá
       if (!isSafeUrl(manga.url)) {
-      showNotification('URL inválida ou insegura: ' + manga.url, true);
-      return;
-    }
+        showNotification('URL inválida ou insegura: ' + manga.url, true);
+        return;
+      }
 
       const response = await fetch(manga.url, { method: 'GET', mode: 'cors' });
       console.log('checkMangaUpdates: resposta HTTP', response.status);
@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function removeManga(mangaId) {
     if (!confirm('Tem certeza que deseja remover este mangá?')) return;
-    
+
     await StorageManager.removeManga(mangaId);
     await loadMangas();
     showNotification('Mangá removido!');
@@ -634,7 +634,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const newTitle = editTitleInput.value.trim();
     const newStatus = editStatusSelect.value;
     const newRating = editRatingSelect.value;
-    
+
     if (!newTitle) {
       showNotification('Digite um título válido!', true);
       return;
@@ -654,7 +654,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     editMangaUrlInput.value = manga.url;
     editLastChapterReadInput.value = manga.lastChapterRead || '';
     editLatestChapterInput.value = manga.latestChapter || '';
-    
+
     openModal(editMangaModal);
   }
 
@@ -712,7 +712,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     closeModal(addMangaModal);
     await loadMangas();
     showNotification('Mangá adicionado!');
-    
+
     // Limpar form
     mangaTitleInput.value = '';
     mangaUrlInput.value = '';
@@ -746,7 +746,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (window.currentSiteFilter === 'favorites') sites = sites.filter(s => s.isFavorite);
 
     // Ordenar (Favoritos primeiro, depois por nome)
-    sites.sort((a,b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0) || a.name.localeCompare(b.name));
+    sites.sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0) || a.name.localeCompare(b.name));
 
     if (sites.length === 0) {
       sitesList.textContent = '';
@@ -779,10 +779,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       link.textContent = site.url;
       link.style.color = '#4299e1';
       link.style.textDecoration = 'none';
-      
+
       link.addEventListener('mouseover', () => link.style.textDecoration = 'underline');
       link.addEventListener('mouseout', () => link.style.textDecoration = 'none');
-      
+
       url.appendChild(link);
       siteInfo.appendChild(url);
 
@@ -830,7 +830,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     sitesList.querySelectorAll('.btn-remove-site').forEach(btn => {
       btn.addEventListener('click', () => removeSite(btn.dataset.id));
     });
-    
+
     sitesList.querySelectorAll('.btn-fav-site').forEach(btn => {
       btn.addEventListener('click', async () => {
         const site = data.sites.find(s => s.id === btn.dataset.id);
@@ -861,7 +861,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const parsedUrl = new URL(url);
       const origin = `${parsedUrl.protocol}//*.${parsedUrl.hostname.replace(/^www\./, '')}/*`;
-      
+
       const granted = await new Promise(resolve => {
         chrome.permissions.request({
           origins: [origin]
@@ -874,7 +874,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       const newSite = await StorageManager.addSite({ name, url, pattern });
-      
+
       try {
         await chrome.scripting.registerContentScripts([{
           id: `site_${newSite.id}`,
@@ -882,10 +882,10 @@ document.addEventListener('DOMContentLoaded', async () => {
           matches: [origin],
           runAt: "document_idle"
         }]);
-      } catch(e) {
+      } catch (e) {
         console.log('Script dinâmico já registrado ou erro:', e);
       }
-    } catch(e) {
+    } catch (e) {
       showNotification('URL inválida!', true);
       return;
     }
@@ -902,15 +902,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function removeSite(siteId) {
     if (!confirm('Tem certeza que deseja remover este site?')) return;
-    
+
     await StorageManager.removeSite(siteId);
-    
+
     try {
       await chrome.scripting.unregisterContentScripts({ ids: [`site_${siteId}`] });
-    } catch(e) { 
+    } catch (e) {
       console.log('Erro ao desregistrar script:', e);
     }
-    
+
     await loadSites();
     showNotification('Site removido!');
   }
@@ -924,11 +924,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Filtrar por período
     const periodFilterValue = historyPeriodFilter.value;
     const now = new Date();
-    
+
     if (periodFilterValue === 'custom') {
       const startDate = historyStartDate.value ? new Date(historyStartDate.value) : null;
       const endDate = historyEndDate.value ? new Date(historyEndDate.value) : null;
-      
+
       if (startDate || endDate) {
         history = history.filter(h => {
           const readDate = new Date(h.readAt);
@@ -1014,17 +1014,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Leituras (Diário, Semanal, Semana Anterior, Total)
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-    
+
     // Início da semana (Últimos 7 dias)
     const rollingStartOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     rollingStartOfWeek.setDate(rollingStartOfWeek.getDate() - 6);
     const startOfWeekTime = rollingStartOfWeek.getTime();
-    
+
     // Início da semana calendário (Segunda-feira) - Mantido para outros fins se necessário
     const dayOfWeek = now.getDay();
     const diffToMonday = now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
     const startOfThisWeek = new Date(now.getFullYear(), now.getMonth(), diffToMonday).getTime();
-    
+
     const startOfLastWeek = startOfThisWeek - (7 * 24 * 60 * 60 * 1000);
     const endOfLastWeek = startOfThisWeek - 1;
 
@@ -1032,10 +1032,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     let weekCount = 0; // Calendário
     let rollingWeekCount = 0; // Patente (Últimos 7 dias)
     let lastWeekCount = 0;
-    
+
     history.forEach(item => {
       const readAt = new Date(item.readAt).getTime();
-      
+
       if (readAt >= today) todayCount++;
       if (readAt >= startOfThisWeek) weekCount++;
       if (readAt >= startOfWeekTime) rollingWeekCount++;
@@ -1050,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Atualizar Nick e Patente no Cabeçalho ---
     const nickname = (data.settings && data.settings.nickname) ? data.settings.nickname : 'Leitor Anônimo';
     const rank = RankManager.getRank(rollingWeekCount);
-    
+
     const userRankHeader = document.getElementById('userRankHeader');
     const rankNickname = document.getElementById('rankNickname');
     const headerRankIcon = document.getElementById('headerRankIcon');
@@ -1086,7 +1086,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       sorted.forEach(([title, count], index) => {
         const item = document.createElement('div');
         item.className = 'ranking-item';
-        
+
         // Calcular porcentagem para a barra de progresso (baseado no #1)
         const maxCount = sorted[0][1];
         const percent = (count / maxCount) * 100;
@@ -1118,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   async function saveSettings() {
     const data = StorageManager.getData();
     const settings = data.settings || {};
-    
+
     settings.autoDetect = autoDetectCheckbox.checked;
     if (nicknameInput) settings.nickname = nicknameInput.value.trim();
 
@@ -1145,8 +1145,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    if (!confirm('Tem certeza absoluta? Digite SIM para confirmar:') || 
-        prompt('Digite SIM em maiúsculas:') !== 'SIM') {
+    if (!confirm('Tem certeza absoluta? Digite SIM para confirmar:') ||
+      prompt('Digite SIM em maiúsculas:') !== 'SIM') {
       return;
     }
 
@@ -1162,14 +1162,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (data && data.settings && data.settings.nickname) {
       nick = data.settings.nickname.trim().replace(/[^a-zA-Z0-9_\-]/g, '') || 'User';
     }
-    
+
     const date = new Date();
     const d = String(date.getDate()).padStart(2, '0');
     const m = String(date.getMonth() + 1).padStart(2, '0');
     const y = String(date.getFullYear()).slice(-2);
     const h = String(date.getHours()).padStart(2, '0');
     const min = String(date.getMinutes()).padStart(2, '0');
-    
+
     return `MangaTrackerBKUP_${nick}_dia${d}${m}${y}h${h}${min}.${extension}`;
   }
 
@@ -1193,7 +1193,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const text = await file.text();
       const success = await StorageManager.importData(text);
-      
+
       if (success) {
         await loadAllData();
         showNotification('Dados importados com sucesso!');
@@ -1234,7 +1234,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       animation: slideIn 0.3s ease;
     `;
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
       notification.style.animation = 'slideOut 0.3s ease';
       setTimeout(() => notification.remove(), 300);
@@ -1343,30 +1343,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   // ===== EXPORTAR CARD DE ESTATÍSTICAS (SUPER TRUNFO) =====
   async function exportStatsCard(readerName) {
     showNotification('Gerando seu Card Super Trunfo...');
-    
+
     const data = StorageManager.getData();
     const history = data.history || [];
     const now = new Date();
-    
+
     // 1. Coleta de Dados
     const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).getTime();
     const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).getTime();
     const startOfYear = new Date(now.getFullYear(), 0, 1).getTime();
-    
+
     let weekCount = 0;
     let monthCount = 0;
     let yearCount = 0;
-    
+
     const counts = {};
     history.forEach(item => {
       const readAt = new Date(item.readAt).getTime();
       if (readAt >= oneWeekAgo) weekCount++;
       if (readAt >= oneMonthAgo) monthCount++;
       if (readAt >= startOfYear) yearCount++;
-      
+
       counts[item.title] = (counts[item.title] || 0) + 1;
     });
-    
+
     const avgPerDay = (monthCount / 30).toFixed(1);
     const topMangas = Object.entries(counts)
       .sort((a, b) => b[1] - a[1])
@@ -1375,8 +1375,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1.1 Coleta de Status
     const statusCounts = { 'lendo': 0, 'lido': 0, 'vou ler': 0, 'dropei': 0 };
     (data.mangas || []).forEach(m => {
-        const s = m.status || 'lendo';
-        if (statusCounts.hasOwnProperty(s)) statusCounts[s]++;
+      const s = m.status || 'lendo';
+      if (statusCounts.hasOwnProperty(s)) statusCounts[s]++;
     });
 
     // 1.2 Calcular Patente
@@ -1387,7 +1387,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const ctx = canvas.getContext('2d');
     canvas.width = 500;
     canvas.height = 750;
-    
+
     // Antialiasing melhorado
     ctx.imageSmoothingEnabled = true;
 
@@ -1402,10 +1402,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Adicionar textura de ruído/brilho sutil
     ctx.globalAlpha = 0.05;
     for (let i = 0; i < 1000; i++) {
-        const x = Math.random() * 500;
-        const y = Math.random() * 750;
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(x, y, 1, 1);
+      const x = Math.random() * 500;
+      const y = Math.random() * 750;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(x, y, 1, 1);
     }
     ctx.globalAlpha = 1.0;
 
@@ -1423,54 +1423,54 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 6. Cabeçalho (Logo + CARD)
     const logoImg = new Image();
     logoImg.src = 'icons/logo_horizontal.png';
-    
+
     const rankIconImg = new Image();
     rankIconImg.src = `icons/patentes_icons/${rank.icon}`;
 
     await Promise.all([
-        new Promise(resolve => { logoImg.onload = resolve; logoImg.onerror = resolve; }),
-        new Promise(resolve => { rankIconImg.onload = resolve; rankIconImg.onerror = resolve; })
+      new Promise(resolve => { logoImg.onload = resolve; logoImg.onerror = resolve; }),
+      new Promise(resolve => { rankIconImg.onload = resolve; rankIconImg.onerror = resolve; })
     ]);
 
-    const headerY = 38; // 38 puxa o ponto Zero pra cima. Logo não esmaga baixo!
+    const headerY = 38; // Ponto Y exato para iniciar 3px abaixo do vidro e não estourar pelo teto!
     if (logoImg.complete && logoImg.naturalWidth > 0) {
-        const maxLogoWidth = 240;
-        // Crescendo a Logo in-place de 46 para 54px para ganhar nitidez
-        const logoScale = Math.min(maxLogoWidth / logoImg.naturalWidth, 54 / logoImg.naturalHeight);
-        const logoWidth = logoImg.naturalWidth * logoScale;
-        const logoHeight = logoImg.naturalHeight * logoScale;
-        
-        const cardText = 'CARD';
-        ctx.font = 'bold 24px Outfit, sans-serif';
-        const textWidth = ctx.measureText(cardText).width;
-        const spacing = 15;
-        const totalHeaderWidth = logoWidth + spacing + textWidth;
-        const startX = (500 - totalHeaderWidth) / 2;
-        
-        // Alinhamento verticalizado pelo meio da logo
-        const centerY = headerY + (logoHeight / 2);
-        
-        ctx.drawImage(logoImg, startX, headerY, logoWidth, logoHeight);
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'left';
-        // Ajustando texto "CARD" para alinhar exatamente no meio da logo
-        ctx.fillText(cardText, startX + logoWidth + spacing, centerY + 8);
+      const maxLogoWidth = 280;
+      // Expansão máxima saudável (58px) que cabe no vão sem esbarrar nas bordas!
+      const logoScale = Math.min(maxLogoWidth / logoImg.naturalWidth, 58 / logoImg.naturalHeight);
+      const logoWidth = logoImg.naturalWidth * logoScale;
+      const logoHeight = logoImg.naturalHeight * logoScale;
+
+      const cardText = 'CARD';
+      ctx.font = 'bold 30px Outfit, sans-serif'; // Leve acomodação da fonte para não brigar com as extremidades
+      const textWidth = ctx.measureText(cardText).width;
+      const spacing = 18; // Gap maior entre a logo e a fonte expandida
+      const totalHeaderWidth = logoWidth + spacing + textWidth;
+      const startX = (500 - totalHeaderWidth) / 2;
+
+      // Alinhamento verticalizado pelo meio da logo
+      const centerY = headerY + (logoHeight / 2);
+
+      ctx.drawImage(logoImg, startX, headerY, logoWidth, logoHeight);
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      // Ajustando texto "CARD" para alinhar exatamente no meio da logo
+      ctx.fillText(cardText, startX + logoWidth + spacing, centerY + 8);
     } else {
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 28px Outfit, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('MANGA TRACKER CARD', 250, headerY + 20);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 28px Outfit, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('MANGA TRACKER CARD', 250, headerY + 20);
     }
-    
+
     // 6.5 Identidade do Leitor (Nick + Patente)
-    const identityBoxY = 100;
+    const identityBoxY = 104; // Descemos míseros 4 pixels pra criar o vão de respiro pro monstrão acima!
     const identityBoxHeight = 96; // Altura perfeitamente simétrica para o conteúdo
     ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
     drawRoundedRect(ctx, 50, identityBoxY, 400, identityBoxHeight, 15);
     ctx.fill();
 
     // Nickname (Y baseline calculado para ficar exatamente após o padding superior)
-    const identityY = identityBoxY + 31; 
+    const identityY = identityBoxY + 31;
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 24px Outfit, sans-serif';
@@ -1483,7 +1483,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const badgeIconSize = 14;
     const badgeGap = 8;
     const badgeInnerPaddingX = 12; // Mesma margem para esquerda e direita!
-    
+
     // Largura total: [pad 12] + [icone 14] + [gap 8] + [texto] + [pad 12]
     const badgeWidth = badgeInnerPaddingX + badgeIconSize + badgeGap + badgeTextWidth + badgeInnerPaddingX;
     const badgeX = (500 - badgeWidth) / 2;
@@ -1497,10 +1497,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     ctx.fill();
 
     if (rankIconImg.complete && rankIconImg.naturalWidth > 0) {
-        // Ícone perfeitamente centralizado verticalmente na barra de 26px
-        ctx.drawImage(rankIconImg, badgeX + badgeInnerPaddingX, badgeY + 6, badgeIconSize, badgeIconSize);
+      // Ícone perfeitamente centralizado verticalmente na barra de 26px
+      ctx.drawImage(rankIconImg, badgeX + badgeInnerPaddingX, badgeY + 6, badgeIconSize, badgeIconSize);
     }
-    
+
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
     ctx.fillText(badgeText, badgeX + badgeInnerPaddingX + badgeIconSize + badgeGap, badgeY + 17);
@@ -1521,22 +1521,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let currentY = 210;
     stats.forEach(stat => {
-        ctx.textAlign = 'left';
-        ctx.fillStyle = 'rgba(255,255,255,0.6)';
-        ctx.font = '10px Outfit, sans-serif';
-        ctx.fillText(stat.title, 55, currentY); // Alinhado ao eixo X: 55
-        
-        ctx.fillStyle = 'rgba(255,255,255,0.05)';
-        drawRoundedRect(ctx, 50, currentY + 6, 400, 36, 8);
-        ctx.fill();
-        
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 20px Outfit, sans-serif';
-        ctx.fillText(stat.value, 65, currentY + 31);
-        ctx.font = '12px Outfit, sans-serif';
-        ctx.fillText('capítulos lidos', 125, currentY + 31);
-        
-        currentY += 58;
+      ctx.textAlign = 'left';
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.font = '10px Outfit, sans-serif';
+      ctx.fillText(stat.title, 55, currentY); // Alinhado ao eixo X: 55
+
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      drawRoundedRect(ctx, 50, currentY + 6, 400, 36, 8);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 20px Outfit, sans-serif';
+      ctx.fillText(stat.value, 65, currentY + 31);
+      ctx.font = '12px Outfit, sans-serif';
+      ctx.fillText('capítulos lidos', 125, currentY + 31);
+
+      currentY += 58;
     });
 
     // 8. Média Diária
@@ -1553,20 +1553,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statusY = 460;
     ctx.font = 'bold 10px Outfit, sans-serif';
     const sTexts = [
-        { label: 'LENDO', count: statusCounts['lendo'] || 0, color: '#00d2ff' },
-        { label: 'LIDO', count: statusCounts['lido'] || 0, color: '#4ade80' },
-        { label: 'VOU LER', count: statusCounts['vou ler'] || 0, color: '#fbbf24' },
-        { label: 'DROPEI', count: statusCounts['dropei'] || 0, color: '#f87171' }
+      { label: 'LENDO', count: statusCounts['lendo'] || 0, color: '#00d2ff' },
+      { label: 'LIDO', count: statusCounts['lido'] || 0, color: '#4ade80' },
+      { label: 'VOU LER', count: statusCounts['vou ler'] || 0, color: '#fbbf24' },
+      { label: 'DROPEI', count: statusCounts['dropei'] || 0, color: '#f87171' }
     ];
-    
+
     // Cálculo dinâmico para espalhar os status perfeitamente entre X=55 e X=445
     let totalTextWidth = 0;
     const sSizes = sTexts.map(s => {
-        const wLabel = ctx.measureText(s.label).width;
-        const wCount = ctx.measureText(s.count.toString()).width;
-        const wTotal = wLabel + 4 + wCount; // 4px de gap entre label e numero
-        totalTextWidth += wTotal;
-        return { label: s.label, count: s.count, color: s.color, wLabel, wTotal };
+      const wLabel = ctx.measureText(s.label).width;
+      const wCount = ctx.measureText(s.count.toString()).width;
+      const wTotal = wLabel + 4 + wCount; // 4px de gap entre label e numero
+      totalTextWidth += wTotal;
+      return { label: s.label, count: s.count, color: s.color, wLabel, wTotal };
     });
 
     const targetRowWidth = 390; // (445 margem direita - 55 margem esquerda)
@@ -1574,12 +1574,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let currentStatusX = 55;
     sSizes.forEach(s => {
-        ctx.textAlign = 'left';
-        ctx.fillStyle = s.color;
-        ctx.fillText(s.label, currentStatusX, statusY);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(s.count, currentStatusX + s.wLabel + 4, statusY);
-        currentStatusX += s.wTotal + gapBetweenItems;
+      ctx.textAlign = 'left';
+      ctx.fillStyle = s.color;
+      ctx.fillText(s.label, currentStatusX, statusY);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(s.count, currentStatusX + s.wLabel + 4, statusY);
+      currentStatusX += s.wTotal + gapBetweenItems;
     });
 
     // 9. Top 5 Mangás
@@ -1590,50 +1590,50 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     ctx.font = '13px Outfit, sans-serif';
     topMangas.forEach(([title, count], idx) => {
-        const y = 525 + (idx * 22);
-        ctx.fillStyle = 'rgba(255,255,255,0.8)';
-        ctx.fillText(`${idx + 1}º ${truncateString(title, 35)}`, 55, y);
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(`${count} lidos`, 445, y);
-        ctx.textAlign = 'left';
+      const y = 525 + (idx * 22);
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.fillText(`${idx + 1}º ${truncateString(title, 35)}`, 55, y);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(`${count} lidos`, 445, y);
+      ctx.textAlign = 'left';
     });
 
     // 10. Links e Rodapé
     ctx.textAlign = 'center';
     const footerStartY = 645;
-    
+
     ctx.fillStyle = '#00d2ff';
     ctx.font = 'bold 22px Outfit, sans-serif'; // Aumentado para 22px (Tamanho Premium)
     ctx.fillText('BAIXE A EXTENSÃO:', 250, footerStartY);
-    
+
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.font = '12px Outfit, sans-serif';
+    ctx.font = '16px Outfit, sans-serif';
     ctx.fillText('github.com/CriaTattoo/manga_tracker_extension', 250, footerStartY + 25);
     ctx.fillText('sites.google.com/view/mangatrackerext', 250, footerStartY + 42);
 
     // Rodapé / Assinatura do app
-    ctx.fillStyle = 'rgba(255,255,255,0.3)';
-    ctx.font = '10px Outfit, sans-serif';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+    ctx.font = '12px Outfit, sans-serif';
     ctx.fillText(`Manga Tracker v${APP_VERSION} • Gerado em ${new Date().toLocaleDateString('pt-BR')}`, 250, 706);
 
     // 11. Download
     try {
-        const link = document.createElement('a');
-        const now = new Date();
-        const dateStr = String(now.getDate()).padStart(2, '0') +
-                        String(now.getMonth() + 1).padStart(2, '0') +
-                        String(now.getFullYear()).slice(-2) +
-                        String(now.getHours()).padStart(2, '0') +
-                        String(now.getMinutes()).padStart(2, '0') +
-                        String(now.getSeconds()).padStart(2, '0');
-        link.download = `MangaTracker_${dateStr}_${readerName.replace(/\s+/g, '_')}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        showNotification('🚀 Card gerado com sucesso!');
+      const link = document.createElement('a');
+      const now = new Date();
+      const dateStr = String(now.getDate()).padStart(2, '0') +
+        String(now.getMonth() + 1).padStart(2, '0') +
+        String(now.getFullYear()).slice(-2) +
+        String(now.getHours()).padStart(2, '0') +
+        String(now.getMinutes()).padStart(2, '0') +
+        String(now.getSeconds()).padStart(2, '0');
+      link.download = `MangaTracker_${dateStr}_${readerName.replace(/\s+/g, '_')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showNotification('🚀 Card gerado com sucesso!');
     } catch (err) {
-        console.error('Erro ao gerar imagem:', err);
-        showNotification('Erro ao gerar imagem. Verifique as permissões.', true);
+      console.error('Erro ao gerar imagem:', err);
+      showNotification('Erro ao gerar imagem. Verifique as permissões.', true);
     }
   }
 
