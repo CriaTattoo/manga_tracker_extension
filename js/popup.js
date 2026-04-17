@@ -77,6 +77,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       totalReadings.textContent = totalReadingsCount;
       document.getElementById('dailyReadings').textContent = dailyCount;
       document.getElementById('weeklyReadings').textContent = weeklyCount;
+
+      // Atualizar Nick e Patente
+      const nickname = (data.settings && data.settings.nickname) ? data.settings.nickname : 'Leitor Anônimo';
+      const rank = RankManager.getRank(weeklyCount);
+      
+      const userRankContainer = document.getElementById('userRankContainer');
+      const userNickname = document.getElementById('userNickname');
+      const rankIcon = document.getElementById('rankIcon');
+      const rankName = document.getElementById('rankName');
+
+      if (userRankContainer && userNickname && rankIcon && rankName) {
+        userNickname.textContent = nickname;
+        rankIcon.src = `icons/patentes_icons/${rank.icon}`;
+        rankName.textContent = rank.patente;
+        userRankContainer.style.display = 'flex';
+      }
     }
   }
 
@@ -305,7 +321,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       await StorageManager.addManga({
         title: title,
         url: currentTab.url,
-        siteId: site.id
+        siteId: site.id,
+        status: 'vou ler'
       });
 
       showNotification('Mangá adicionado com sucesso!');
@@ -354,11 +371,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       // Atualizar mangá
-      await StorageManager.updateManga(manga.id, {
+      const updates = {
         lastChapterRead: chapter,
         lastChapterUrl: currentTab.url,
         lastReadAt: new Date().toISOString()
-      });
+      };
+
+      if (!manga.status || manga.status === 'vou ler') {
+        updates.status = 'lendo';
+      }
+
+      await StorageManager.updateManga(manga.id, updates);
 
       // Adicionar ao histórico
       await StorageManager.addToHistory({

@@ -179,6 +179,8 @@ const StorageManager = {
       lastChapterUrl: manga.lastChapterUrl || null,
       latestChapter: manga.latestChapter || null,
       lastReadAt: manga.lastReadAt || null,
+      status: manga.status || 'lendo',
+      rating: manga.rating || '',
       addedAt: new Date().toISOString()
     };
 

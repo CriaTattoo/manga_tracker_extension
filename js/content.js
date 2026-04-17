@@ -320,7 +320,9 @@
         lastChapterUrl: pageUrl,
         latestChapter: chapter,
         lastReadAt: new Date().toISOString(),
-        addedAt: new Date().toISOString()
+        addedAt: new Date().toISOString(),
+        status: 'lendo',
+        rating: ''
       };
       mangaData.mangas.push(existingManga);
     } else {
@@ -329,6 +331,9 @@
       existingManga.lastReadAt = new Date().toISOString();
       if (!existingManga.latestChapter || parseFloat(chapter) > parseFloat(existingManga.latestChapter)) {
         existingManga.latestChapter = chapter;
+      }
+      if (!existingManga.status || existingManga.status === 'vou ler') {
+        existingManga.status = 'lendo';
       }
     }
 

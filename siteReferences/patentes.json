@@ -1,0 +1,135 @@
+[
+    {
+        "nivel": "00",
+        "patente": "Sarapão",
+        "cap_semana": "0",
+        "descricao": "O vacilão que não lê manga!",
+        "icon": "fa-solid fa-trash-can"
+    },
+    {
+        "nivel": "01",
+        "patente": "Olheiro de Quadrin",
+        "cap_semana": "1 — 10",
+        "descricao": "Só de visão, monitorando a atividade de longe.",
+        "icon": "fa-solid fa-eye"
+    },
+    {
+        "nivel": "02",
+        "patente": "Nóia de Lançamentos",
+        "cap_semana": "11 — 20",
+        "descricao": "Vive na fissura, implorando cap novo pros ADMs.",
+        "icon": "fa-solid fa-face-dizzy"
+    },
+    {
+        "nivel": "03",
+        "patente": "Fogueteiro de Scan",
+        "cap_semana": "21 — 35",
+        "descricao": "O primeiro a avisar quando tem cap. novo!",
+        "icon": "fa-solid fa-bullhorn"
+    },
+    {
+        "nivel": "04",
+        "patente": "Leitor de Radin",
+        "cap_semana": "36 — 50",
+        "descricao": "Sintonizado na frequência, não perde um detalhe.",
+        "icon": "fa-solid fa-walkie-talkie"
+    },
+    {
+        "nivel": "05",
+        "patente": "Vapor da Scan",
+        "cap_semana": "51 — 70",
+        "descricao": "O que faz a mercadoria circular, distribuindo opinião pros amigos.",
+        "icon": "fa-solid fa-wind"
+    },
+    {
+        "nivel": "06",
+        "patente": "Soldado do Bookmark",
+        "cap_semana": "71 — 90",
+        "descricao": "Doutrinado! Mantém a lista organizada e a salvo de quedas.",
+        "icon": "fa-solid fa-shield-halved"
+    },
+    {
+        "nivel": "07",
+        "patente": "Cheira Linhas",
+        "cap_semana": "91 — 115",
+        "descricao": "O cara é um raio. Lê tão rápido que nem lembra do inicio da obra!",
+        "icon": "fa-solid fa-bolt-lightning"
+    },
+    {
+        "nivel": "08",
+        "patente": "Sarna do PDF",
+        "cap_semana": "116 — 140",
+        "descricao": "Viciado em download. O terror do 4G no busão.",
+        "icon": "fa-solid fa-file-arrow-down"
+    },
+    {
+        "nivel": "09",
+        "patente": "Contenção de Spoiler",
+        "cap_semana": "141 — 170",
+        "descricao": "Segurança do futuro. Não deixa vazar informação pro inocente!",
+        "icon": "fa-solid fa-user-lock"
+    },
+    {
+        "nivel": "10",
+        "patente": "Atirador de Skip",
+        "cap_semana": "171 — 200",
+        "descricao": "Precisão cirúrgica pra identificar e pular os fillers e flashbacks inúteis.",
+        "icon": "fa-solid fa-crosshairs"
+    },
+    {
+        "nivel": "11",
+        "patente": "Fumador de Páginas",
+        "cap_semana": "201 — 235",
+        "descricao": "Vai só de HOT. Só consome os lançamentos do momento.",
+        "icon": "fa-solid fa-fire"
+    },
+    {
+        "nivel": "12",
+        "patente": "Gerente das Obras",
+        "cap_semana": "236 — 270",
+        "descricao": "Organiza a escala. Manda na própria estante. Gestão inteligente.",
+        "icon": "fa-solid fa-briefcase"
+    },
+    {
+        "nivel": "13",
+        "patente": "Frente da Scanlator",
+        "cap_semana": "271 — 310",
+        "descricao": "Na linha de frente do corre das tradução, edição, revisão!",
+        "icon": "fa-solid fa-skull"
+    },
+    {
+        "nivel": "14",
+        "patente": "Braço Direito do Mano",
+        "cap_semana": "311 — 350",
+        "descricao": "Só nas obras raras e underground de confiança. Visão de águia!",
+        "icon": "fa-solid fa-hand-fist"
+    },
+    {
+        "nivel": "15",
+        "patente": "Brabão da Pirataria",
+        "cap_semana": "351 — 395",
+        "descricao": "Mais velho do morrão. Sobreviveu à queda de todos os sites.",
+        "icon": "fa-solid fa-coins"
+    },
+    {
+        "nivel": "16",
+        "patente": "O Mano das Scans",
+        "cap_semana": "396 — 440",
+        "descricao": "Dono da p**** toda. Já previu o final no cap 1.",
+        "icon": "fa-solid fa-crown"
+    },
+    {
+        "nivel": "17",
+        "patente": "Conselheiro do Submundo",
+        "cap_semana": "441 — 490",
+        "descricao": "A palavra final. Indica o mangá certo pro ganso curtir a onda.",
+        "icon": "fa-solid fa-brain"
+    },
+    {
+        "nivel": "18",
+        "patente": "Relíquia de Madureira",
+        "cap_semana": "491+",
+        "descricao": "Nível Deus. Lê na gringa e ainda traduz para os reles mortais.",
+        "icon": "fa-solid fa-gem"
+    }
+]

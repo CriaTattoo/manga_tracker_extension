@@ -45,6 +45,18 @@ body {
   align-items: center;
 }
 
+.header-main {
+  display: flex;
+  align-items: center;
+}
+
+.header-info-group {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .main-logo {
   max-width: 160px;
   height: auto;
@@ -55,6 +67,70 @@ body {
   font-size: 11px;
   color: var(--text-dim);
   opacity: 0.6;
+}
+
+/* User Rank Header */
+.user-rank-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rank-row-top {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.rank-nickname {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+}
+
+.rank-badge-large {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  background: var(--gradient-main);
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
+}
+
+.rank-icon-large {
+  width: 14px;
+  height: 14px;
+  filter: brightness(0) invert(1);
+}
+
+.rank-name-large {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.rank-row-bottom {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.rank-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.rank-weekly-count {
+  font-size: 12px;
+  color: var(--primary-teal);
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
 }
 
 /* Tabs */

@@ -13,8 +13,23 @@
     <header class="app-header">
       <div class="header-main">
         <img src="icons/logo_horizontal.png" alt="Manga Tracker Logo" id="appLogo" class="main-logo">
-        <div class="version-info">
-          <p class="app-signature"></p>
+        <div class="header-info-group">
+          <div id="userRankHeader" class="user-rank-header" style="display: none;">
+            <div class="rank-row-top">
+              <span id="rankNickname" class="rank-nickname"></span>
+              <div class="rank-badge-large">
+                <img id="headerRankIcon" src="" alt="Patente" class="rank-icon-large">
+                <span id="headerRankName" class="rank-name-large"></span>
+              </div>
+            </div>
+            <div class="rank-row-bottom">
+              <p id="headerRankDesc" class="rank-desc"></p>
+              <span id="headerRankWeekly" class="rank-weekly-count"></span>
+            </div>
+          </div>
+          <div class="version-info">
+            <p class="app-signature"></p>
+          </div>
         </div>
       </div>
       <div class="header-actions">
@@ -53,8 +68,22 @@
             <label>Status:</label>
             <select id="statusFilter">
               <option value="all">Todos</option>
-              <option value="read">Lidos</option>
-              <option value="unread">Não Lidos</option>
+              <option value="lendo">Lendo</option>
+              <option value="lido">Lido</option>
+              <option value="vou ler">Vou Ler</option>
+              <option value="dropei">Dropei</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Avaliação:</label>
+            <select id="ratingFilter">
+              <option value="all">Todas</option>
+              <option value="BRABISSIMO">BRABÍSSIMO 🔥</option>
+              <option value="brabo">Brabo</option>
+              <option value="brabin">Brabin</option>
+              <option value="fraquinho">Fraquinho</option>
+              <option value="fraco">Fraco</option>
+              <option value="fracassado">Fracassado</option>
             </select>
           </div>
           <div class="filter-group">
@@ -190,6 +219,12 @@
           </div>
 
           <div class="setting-item">
+            <h3>Nick/Apelido</h3>
+            <p class="setting-description" style="margin-bottom: 8px;">Defina seu nick para usar automaticamente no Manga Tracker Card.</p>
+            <input type="text" id="nicknameInput" placeholder="Ex: ZiggPony" style="width: 100%; max-width: 300px; padding: 10px; border-radius: 6px; border: 1px solid #4a5568; background-color: #2d3748; color: white;">
+          </div>
+
+          <div class="setting-item">
             <h3>Backup e Exportação</h3>
             <div id="fileInfo" class="file-info" style="margin-bottom: 12px;">
               <p id="currentFileName">Banco de dados Local: Nenhum arquivo Persistente Montado</p>
@@ -279,6 +314,27 @@
             <option value="">Selecione um site</option>
           </select>
         </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="mangaStatusSelect">
+            <option value="lendo">Lendo</option>
+            <option value="lido">Lido</option>
+            <option value="vou ler">Vou Ler</option>
+            <option value="dropei">Dropei</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Avaliação</label>
+          <select id="mangaRatingSelect">
+            <option value="">Sem avaliação</option>
+            <option value="BRABISSIMO">BRABÍSSIMO 🔥</option>
+            <option value="brabo">Brabo</option>
+            <option value="brabin">Brabin</option>
+            <option value="fraquinho">Fraquinho</option>
+            <option value="fraco">Fraco</option>
+            <option value="fracassado">Fracassado</option>
+          </select>
+        </div>
       </div>
       <div class="modal-footer">
         <button id="cancelMangaBtn" class="btn btn-secondary">Cancelar</button>
@@ -291,13 +347,34 @@
   <div id="editTitleModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>Editar Título do Mangá</h2>
+        <h2>Editar Detalhes do Mangá</h2>
         <button class="close-btn">&times;</button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label>Novo Título</label>
+          <label>Título do Mangá</label>
           <input type="text" id="editTitleInput" placeholder="Ex: Urek Mazino">
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="editStatusSelect">
+            <option value="lendo">Lendo</option>
+            <option value="lido">Lido</option>
+            <option value="vou ler">Vou Ler</option>
+            <option value="dropei">Dropei</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Avaliação</label>
+          <select id="editRatingSelect">
+            <option value="">Sem avaliação</option>
+            <option value="BRABISSIMO">BRABÍSSIMO 🔥</option>
+            <option value="brabo">Brabo</option>
+            <option value="brabin">Brabin</option>
+            <option value="fraquinho">Fraquinho</option>
+            <option value="fraco">Fraco</option>
+            <option value="fracassado">Fracassado</option>
+          </select>
         </div>
       </div>
       <div class="modal-footer">
@@ -363,6 +440,7 @@
     </div>
   </div>
   <script src="js/version.js"></script>
+  <script src="js/ranks.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/manager.js"></script>
 </body>
