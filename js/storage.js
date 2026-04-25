@@ -15,11 +15,13 @@ const StorageManager = {
   // Inicializar storage
   async init() {
     try {
-      // Recuperar file handle do chrome.storage.local
+      // Sempre carregar os dados existentes, se houver, independente de arquivo externo montado
+      await this.loadData();
+
+      // Recuperar status do file handle do chrome.storage.local (se houver)
       const result = await chrome.storage.local.get(['fileHandle']);
       if (result.fileHandle) {
         this.fileHandle = result.fileHandle;
-        await this.loadData();
       }
 
       await this.loadNativeSites();
@@ -281,6 +283,11 @@ const StorageManager = {
     try {
       const imported = JSON.parse(jsonData);
       this.data = imported;
+
+      // Marcar como tendo dados ativos para garantir persistência no init após refresh
+      await chrome.storage.local.set({ fileHandle: true });
+      this.fileHandle = true;
+
       await this.saveData();
       return true;
     } catch (error) {
@@ -371,6 +378,11 @@ const StorageManager = {
       const imported = this.xmlToObj(root);
 
       this.data = imported;
+      
+      // Marcar como tendo dados ativos para garantir persistência no init após refresh
+      await chrome.storage.local.set({ fileHandle: true });
+      this.fileHandle = true;
+
       await this.saveData();
       return true;
     } catch (error) {

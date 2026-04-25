@@ -1340,8 +1340,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const success = await StorageManager.importData(text);
 
       if (success) {
-        await loadAllData();
         showNotification('Dados importados com sucesso!');
+        location.reload(); // Recarrega para popular todas as abas perfeitamente
       } else {
         showNotification('Erro ao importar dados!', true);
       }
