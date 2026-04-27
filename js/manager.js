@@ -83,6 +83,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const generateCardBtn = document.getElementById('generateCardBtn');
   const cancelStatsCardBtn = document.getElementById('cancelStatsCardBtn');
   const exportStatsCardBtn = document.getElementById('exportStatsCardBtn');
+  const patentesListModal = document.getElementById('patentesListModal');
+  const patentesListContainer = document.getElementById('patentesListContainer');
+  const closePatentesBtn = document.getElementById('closePatentesBtn');
+  const userRankHeader = document.getElementById('userRankHeader');
 
   let editingMangaId = null;
   let currentPages = { mangas: 1, sites: 1, history: 1 };
@@ -349,6 +353,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.open('https://nubank.com.br/cobrar/eb2qm/69c29c86-3e66-4a9f-9cee-801db91b8c47', '_blank');
       }
     });
+
+    // Patentes
+    userRankHeader?.addEventListener('click', openPatentesModal);
+    closePatentesBtn?.addEventListener('click', () => closeModal(patentesListModal));
 
     // Modal de adicionar mangá
 
@@ -1181,8 +1189,65 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById('todayReadsCount').textContent = todayCount;
     document.getElementById('weekReadsCount').textContent = weekCount;
-    document.getElementById('lastWeekReadsCount').textContent = lastWeekCount;
     document.getElementById('totalReadsCount').textContent = history.length;
+    // --- Cálculo de Histórico Semanal ---
+    const weeklyHistoryList = document.getElementById('weeklyHistoryList');
+    if (weeklyHistoryList) {
+      weeklyHistoryList.innerHTML = '';
+      
+      // Agrupar histórico por semanas (Segunda a Domingo)
+      const weeksData = {};
+      
+      history.forEach(item => {
+        const date = new Date(item.readAt);
+        const day = date.getDay();
+        // Ajuste para encontrar a segunda-feira daquela data
+        const diff = date.getDate() - (day === 0 ? 6 : day - 1);
+        const monday = new Date(date.getFullYear(), date.getMonth(), diff, 0, 0, 0, 0);
+        
+        const weekKey = monday.getTime();
+        if (!weeksData[weekKey]) {
+          const sunday = new Date(monday);
+          sunday.setDate(monday.getDate() + 6);
+          sunday.setHours(23, 59, 59, 999);
+          
+          weeksData[weekKey] = {
+            start: monday,
+            end: sunday,
+            count: 0
+          };
+        }
+        weeksData[weekKey].count++;
+      });
+      
+      // Ordenar semanas (mais recente primeiro)
+      const sortedWeeks = Object.values(weeksData).sort((a, b) => b.start - a.start);
+      
+      if (sortedWeeks.length === 0) {
+        weeklyHistoryList.innerHTML = '<p class="empty-state">Sem histórico de leitura semanal.</p>';
+      } else {
+        sortedWeeks.forEach(week => {
+          const rank = RankManager.getRank(week.count);
+          const weekItem = document.createElement('div');
+          weekItem.className = 'weekly-history-item';
+          
+          const startDate = week.start.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+          const endDate = week.end.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+          
+          weekItem.innerHTML = `
+            <div class="weekly-info">
+              <span class="weekly-date-range">${startDate} — ${endDate}</span>
+              <span class="weekly-count-tag">${week.count} capítulos</span>
+            </div>
+            <div class="rank-badge-small">
+              <img src="icons/patentes_icons/${rank.icon}" alt="Patente" class="rank-icon-small">
+              <span class="rank-name-small">${rank.patente}</span>
+            </div>
+          `;
+          weeklyHistoryList.appendChild(weekItem);
+        });
+      }
+    }
 
     // --- Atualizar Nick e Patente no Cabeçalho ---
     const nickname = (data.settings && data.settings.nickname) ? data.settings.nickname : 'Leitor Anônimo';
@@ -1350,6 +1415,57 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     importFileInput.value = '';
+  }
+
+  // ===== PATENTES =====
+  function openPatentesModal() {
+    console.log('Manager: Abrindo modal de patentes');
+    const data = StorageManager.getData();
+    const history = data.history || [];
+    
+    // Calcular leituras dos últimos 7 dias
+    const now = new Date();
+    const startOfWeekTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6).getTime();
+    let rollingWeekCount = 0;
+    history.forEach(item => {
+      if (new Date(item.readAt).getTime() >= startOfWeekTime) rollingWeekCount++;
+    });
+
+    const currentRank = RankManager.getRank(rollingWeekCount);
+    
+    patentesListContainer.innerHTML = '';
+    
+    RANKS_DATA.forEach(rank => {
+      const isCurrent = rank.nivel === currentRank.nivel;
+      const item = document.createElement('div');
+      item.className = `patente-item ${isCurrent ? 'current-rank' : ''}`;
+      
+      const rangeText = rank.cap_semana === '0' ? '0' : 
+                        rank.cap_semana.includes('+') ? `LÊ ${rank.cap_semana} por semana!!` :
+                        `LÊ entre ${rank.cap_semana.replace('-', ' — ')} por semana!!`;
+
+      item.innerHTML = `
+        <div class="patente-icon-container">
+          <img src="icons/patentes_icons/${rank.icon}" alt="${rank.patente}">
+        </div>
+        <div class="patente-info">
+          <div class="patente-header-row">
+            <span class="patente-name">${rank.patente}</span>
+            <span class="patente-range">${rangeText}</span>
+          </div>
+          <p class="patente-func">${rank.descricao}</p>
+        </div>
+      `;
+      patentesListContainer.appendChild(item);
+      
+      if (isCurrent) {
+        setTimeout(() => {
+          item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    });
+
+    openModal(patentesListModal);
   }
 
   // ===== UTILITÁRIOS =====

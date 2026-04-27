@@ -14,7 +14,7 @@
       <div class="header-main">
         <img src="icons/logo_horizontal.png" alt="Manga Tracker Logo" id="appLogo" class="main-logo">
         <div class="header-info-group">
-          <div id="userRankHeader" class="user-rank-header" style="display: none;">
+          <div id="userRankHeader" class="user-rank-header" style="display: none; cursor: pointer;" title="Clique para ver todas as patentes">
             <div class="rank-row-top">
               <span id="rankNickname" class="rank-nickname"></span>
               <div class="rank-badge-large">
@@ -240,12 +240,11 @@
         <div class="stats-secondary-info"
           style="margin-top: 30px; display: grid; gap: 30px; grid-template-columns: 1fr 1fr;">
           <div class="stats-box">
-            <h3>Comparativo Semanal</h3>
-            <div class="comparison-item">
-              <span>Semana Passada</span>
-              <span id="lastWeekReadsCount" class="comparison-value">0</span>
+            <h3>Histórico de Patentes Semanais</h3>
+            <div id="weeklyHistoryList" class="weekly-history-list" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
+              <!-- JS will populate this -->
             </div>
-            <p class="comparison-note">Baseado no histórico de capítulos abertos.</p>
+            <p class="comparison-note" style="margin-top: 15px;">Suas patentes conquistadas semana a semana (Segunda a Domingo).</p>
           </div>
 
           <div class="stats-box ranking-box">
@@ -506,6 +505,26 @@
       <div class="modal-footer">
         <button id="cancelStatsCardBtn" class="btn btn-secondary">Cancelar</button>
         <button id="generateCardBtn" class="btn btn-premium">Gerar Card ✨</button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal: Lista de Patentes -->
+  <div id="patentesListModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2>🎖️ Hierarquia de Patentes</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 70vh; overflow-y: auto; padding: 15px;">
+        <p class="help-text" style="margin-bottom: 20px; text-align: center; font-size: 14px;">
+          Sua patente é baseada na quantidade de capítulos lidos nos <strong>últimos 7 dias</strong>.
+        </p>
+        <div id="patentesListContainer" class="patentes-grid">
+          <!-- JS vai popular as patentes -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="closePatentesBtn" class="btn btn-primary">Entendi</button>
       </div>
     </div>
   </div>

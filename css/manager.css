@@ -133,6 +133,70 @@ body {
   text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
 }
 
+.rank-badge-small {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  background: var(--gradient-main);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 210, 255, 0.1);
+}
+
+.rank-icon-small {
+  width: 12px;
+  height: 12px;
+  filter: brightness(0) invert(1);
+}
+
+.rank-name-small {
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.weekly-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.weekly-history-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.weekly-history-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(0, 210, 255, 0.2);
+}
+
+.weekly-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.weekly-date-range {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.weekly-count-tag {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
 /* Tabs */
 .tabs {
   display: flex;
@@ -633,4 +697,108 @@ input:focus { border-color: var(--primary-teal); }
   font-size: 13px;
   color: var(--text-dim);
   font-style: italic;
+}
+/* Patentes List Modal */
+.patentes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.patente-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.patente-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 210, 255, 0.3);
+  transform: translateX(5px);
+}
+
+.patente-item.current-rank {
+  border: 2px solid var(--primary-teal);
+  background: rgba(0, 210, 255, 0.05);
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.1);
+}
+
+.patente-item.current-rank::after {
+  content: 'VOCÊ';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--gradient-main);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 1px;
+}
+
+.patente-icon-container {
+  width: 50px;
+  height: 50px;
+  background: var(--gradient-main);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.patente-icon-container img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
+.patente-info {
+  flex: 1;
+}
+
+.patente-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.patente-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.patente-range {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-teal);
+  background: rgba(0, 210, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.patente-func {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.user-rank-header:hover {
+  filter: brightness(1.1);
+}
+
+.user-rank-header:hover .rank-badge-large {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4);
 }

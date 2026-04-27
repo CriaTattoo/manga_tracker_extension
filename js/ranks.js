@@ -120,9 +120,9 @@ const RANKS_DATA = [
     },
     {
         "nivel": "17",
-        "patente": "Conselheiro do Submundo",
+        "patente": "Traficante de Mangás",
         "cap_semana": "441-490",
-        "descricao": "A palavra final. Indica o mangá certo pro ganso curtir a onda.",
+        "descricao": "Da palavra final. Indica o mangá certo pro ganso curtir a onda.",
         "icon": "brain-solid-full.svg"
     },
     {
