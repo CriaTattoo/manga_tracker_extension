@@ -5,6 +5,19 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [4.1.0] - 2026-04-27
+
+### Adicionado
+- **Hierarquia de Patentes**: Novo modal interativo que exibe todos os ranks, requisitos de leitura e descrições.
+- **Histórico Semanal Detalhado**: Nova aba de estatísticas que agrupa leituras por semana (Segunda a Domingo) e exibe a patente alcançada em cada período.
+- **Interatividade no Cabeçalho**: O badge de patente no Gerenciador agora é clicável para acesso rápido à hierarquia.
+- **Patente "Traficante de Mangás"**: Atualização e renomeação de patentes de alto nível para maior imersão.
+
+### Modificado
+- Melhorias visuais em modais com glassmorphism e animações suaves.
+- Otimização do cálculo de semanas no sistema de estatísticas.
+- Ajuste na rolagem automática para destacar a patente atual do usuário.
+
 ## [3.0.1] - 2026-04-13
 
 ### Adicionado

@@ -1,14 +1,15 @@
-# 📚 Manga Tracker - Extensão para Chrome (v4.0.0)
+# 📚 Manga Tracker - Extensão para Chrome (v4.1.0)
 
 Uma extensão completa e premium para gerenciamento de leitura de mangás no navegador Chrome (e outros navegadores baseados em Chromium).
 
 ## ✨ Funcionalidades
 
 - 🔍 **Detecção Automática**: Detecta automaticamente quando você visita páginas de mangás.
-- 📝 **Gerenciamento Completo**: Adicione mangás, sites e gerencie sua lista de leitura.
+- 🎖️ **Hierarquia de Patentes**: Descubra todos os títulos e requisitos clicando na sua patente no Gerenciador! (Novo na v4.1.0)
+- 📊 **Histórico Semanal Detalhado**: Visualize suas patentes alcançadas em cada semana no seu histórico de estatísticas! (Novo na v4.1.0)
 - 🃏 **Manga Tracker Cards**: Gere cards colecionáveis (Super Trunfo) com suas estatísticas e compartilhe seu progresso!
-- 🗂️ **Paginação Universal**: Navegue facilmente por listas gigantes configurando a quantidade de itens [12, 24, 60, 100, Todos]! (Novo na v4.0.0)
-- 📈 **Resumos Dinâmicos**: Acompanhe o total de Lidos, Lendo, Dropados em tempo real direto na interface! (Novo na v4.0.0)
+- 🗂️ **Paginação Universal**: Navegue facilmente por listas gigantes configurando a quantidade de itens [12, 24, 60, 100, Todos]!
+- 📈 **Resumos Dinâmicos**: Acompanhe o total de Lidos, Lendo, Dropados em tempo real direto na interface!
 - ⏱️ **Histórico de Leitura**: Mantenha registro de todos os capítulos que você leu.
 - 📊 **Estatísticas Avançadas**: Visualize seu volume de leitura semanal, mensal e anual.
 - 🔔 **Notificações**: Receba alertas sobre novos capítulos disponíveis.
