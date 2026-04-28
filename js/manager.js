@@ -344,13 +344,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       alert('Para proteger sua leitura de sites que caem e links que somem, eu trago ate você o MangaTracker. 📖\n\n' +
         'E para que o projeto continue existindo, ele precisa de energia — e essa energia vem de você!  o que \n' +
         'É o que chamamos de troca equivalente! \n\n' +
-        'Uma doação simbólica de R$5 via PIX é o sacrifício ideal para mantermos essa ferramenta viva e livre e sem anúncios para todos. ⚙️🔥\n\n' +
+        'Uma doação simbólica via PayPal é o sacrifício ideal para mantermos essa ferramenta viva e livre e sem anúncios para todos. ⚙️🔥\n\n' +
         'Vamos manter esse projeto de pé juntos? 🙏');
     });
     donatePixManagerBtn?.addEventListener('click', () => {
-      const confirmMsg = 'Você será redirecionado para pagar R$5 via PIX ao projeto MangaTracker. Deseja continuar?';
+      const confirmMsg = 'Você será redirecionado para doar via PayPal ao projeto MangaTracker. Deseja continuar?';
       if (confirm(confirmMsg)) {
-        window.open('https://nubank.com.br/cobrar/eb2qm/69c29c86-3e66-4a9f-9cee-801db91b8c47', '_blank');
+        window.open('https://www.paypal.com/donate/?hosted_button_id=3VK8AGZ59P6WG', '_blank');
       }
     });
 

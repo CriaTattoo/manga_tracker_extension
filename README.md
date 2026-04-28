@@ -84,6 +84,6 @@ Para gerenciar grandes bibliotecas sem perder performance, as abas de Mangás, S
 ---
 
 ## 💰 Apoie o Desenvolvimento
-Se você gosta do Manga Tracker e os Cards estão sendo úteis, considere uma doação simbólica de **R$5 via PIX**. Isso ajuda a manter o projeto vivo e sem anúncios!
+Se você gosta do Manga Tracker e os Cards estão sendo úteis, considere uma doação simbólica **via PayPal**. Isso ajuda a manter o projeto vivo e sem anúncios!
 
 **Desenvolvido com ❤️ para leitores de mangá.**
